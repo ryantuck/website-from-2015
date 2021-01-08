@@ -1,0 +1,1067 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Ryan Tuck</title>
+    <description>A rad site for a rad dude</description>
+    <link>ryantuck.github.io/</link>
+    <atom:link href="ryantuck.github.io/feed.xml" rel="self" type="application/rss+xml" />
+    <pubDate>Mon, 15 Dec 2014 15:33:00 -0500</pubDate>
+    <lastBuildDate>Mon, 15 Dec 2014 15:33:00 -0500</lastBuildDate>
+    <generator>Jekyll v2.2.0</generator>
+    
+      <item>
+        <title>A Cool Experiment on Cooling Coffee</title>
+        <description>&lt;p&gt;I like coffee. Nothing quite like it. &lt;/p&gt;
+
+&lt;p&gt;I enjoy making it at home with my &lt;a href=&quot;http://aerobie.com/products/aeropress.htm&quot;&gt;Aeropress&lt;/a&gt;. I used to use a french press, but it was too much god damn work to clean, and I didn’t have a sexy enough burr grinder to get the full effect of perfect coffee. &lt;/p&gt;
+
+&lt;p&gt;In my pursuit of good-enough coffee, I’ve read that the optimal brewing temperature for coffee is 195˚ - 205˚ F. However, on Aeropress’s website, they recommend a brew temperature of about 165˚ - 175˚ F, from blind in-house taste tests. I’d like to replicate that. Unfortunately, I have a rudimentary water kettle without a temperature display.&lt;/p&gt;
+
+&lt;p&gt;So to brew perfect coffee, am I doomed to standing around holding a thermometer in my kettle until it gets down to temperature? No! Luckily, I studied physics in school, allowing me to solve mundane problems like this. &lt;/p&gt;
+
+&lt;h3 id=&quot;theory&quot;&gt;Theory&lt;/h3&gt;
+
+&lt;p&gt;Cracking open my thermodynamics textbook was fun, but didn’t cover the particular problem of an insulated body exposed to an infinite cooling reservoir. So I went to the internet. &lt;/p&gt;
+
+&lt;p&gt;Newton’s Law of Cooling basically states that hot bodies will lose heat at a faster rate than cooler bodies. For instance, a cup of coffee at 200˚ F will cool faster than than a cup at 140˚ F at room temperature. This is fairly intuitive. &lt;/p&gt;
+
+&lt;p&gt;Mathematically, this looks like: &lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;
+\begin{align*}
+
+	\frac{dT}{dt} \propto - \Delta T
+
+\end{align*}
+&lt;/script&gt;
+
+&lt;p&gt;So we go ahead and formalize the relationship by adding some proportionality factor &lt;script type=&quot;math/tex&quot;&gt;k&lt;/script&gt;:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;
+\begin{align*}
+
+	\frac{dT}{dt} = -k\Delta T
+
+\end{align*}
+&lt;/script&gt;
+
+&lt;p&gt;Ultimately, we want to get &lt;script type=&quot;math/tex&quot;&gt; T(t) &lt;/script&gt; for our setup. The derivation is fairly straightforward:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;
+\begin{align*}
+
+	T - T_a = \Delta T
+
+	\\\\
+
+	\frac{dT}{dt} = \frac{d(\Delta T)}{dt}
+
+	\\\\
+
+	\frac{d(\Delta T)}{dt} = -k\Delta T
+
+	\\\\
+
+	\frac{d(\Delta T)}{\Delta T} = -k dt
+
+	\\\\
+
+	\int \frac{d(\Delta T)}{\Delta T} = - \int k dt
+
+	\\\\
+
+	\left.ln(\Delta T)\right |_0^t = -kt
+
+	\\\\
+
+	ln \left(\frac{\Delta T}{\Delta T_i}\right) = -kt
+
+	\\\\
+
+	\frac{\Delta T}{\Delta T_i} = e^{-kt} 
+
+	\\\\
+
+	\Delta T = \Delta T_i e^{-kt}
+
+	\\\\
+
+	T - T_a = (T_i - T_a) e^{-kt}
+
+	\\\\
+
+	T(t) = T_a + (T_i - T_a) e^ {-kt}
+
+\end{align*}
+&lt;/script&gt;
+
+&lt;p&gt;This all checks out. &lt;script type=&quot;math/tex&quot;&gt; T(\infty) \to T_a &lt;/script&gt;. Cool. &lt;/p&gt;
+
+&lt;p&gt;In theory, I only need one measurement to compute &lt;script type=&quot;math/tex&quot;&gt;k&lt;/script&gt;: &lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;
+\begin{align*}
+
+	k = - \frac{ln(\frac{T - T_a}{T_i - T_a})}{t}
+
+\end{align*}
+&lt;/script&gt;
+
+&lt;p&gt;But that would apply only if I could confirm that &lt;script type=&quot;math/tex&quot;&gt;k&lt;/script&gt; is constant. What other factors might affect how quickly the water cools? I imagine the ratio of surface area to the volume of the water would matter. For instance, if the surface area was zero, and the water was completely contained in a perfect insulator, the temperature would never change. Conversely, if we had a super wide pan to keep the water in, and we had a depth of about 1 mm, I imagine it’d cool a lot faster. &lt;/p&gt;
+
+&lt;p&gt;So, I’d like to find &lt;script type=&quot;math/tex&quot;&gt;k(A,V)&lt;/script&gt;. Initially, I’ll just find &lt;script type=&quot;math/tex&quot;&gt;k(V)&lt;/script&gt; for my own kettle, since &lt;script type=&quot;math/tex&quot;&gt;A&lt;/script&gt; remains fixed. &lt;/p&gt;
+
+&lt;p&gt;Once we find this relationship, we can then get the ultimate result we want, &lt;script type=&quot;math/tex&quot;&gt; t(V) &lt;/script&gt; for a desired range of &lt;script type=&quot;math/tex&quot;&gt; T &lt;/script&gt;. &lt;/p&gt;
+
+&lt;h3 id=&quot;experiment&quot;&gt;Experiment&lt;/h3&gt;
+
+&lt;p&gt;I took five samples of the water temperature for a time period of 15 minutes at 2-cup increments in volume from 4 cups to 12 cups.&lt;/p&gt;
+
+&lt;p&gt;The measured initial temperature &lt;script type=&quot;math/tex&quot;&gt;T_i&lt;/script&gt; was found to be 95˚ C. The ambient temperature &lt;script type=&quot;math/tex&quot;&gt;T_a&lt;/script&gt; was measured to be 25˚ C (about 68˚ F, as expected). &lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/coffee/temp.pdf&quot; alt=&quot;T(V)&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;analysis&quot;&gt;Analysis&lt;/h3&gt;
+
+&lt;p&gt;As you can see, the graph &lt;script type=&quot;math/tex&quot;&gt; T (V) &lt;/script&gt; looks almost linear, possibly leveling out as volume increases. We have a very small range of values to work with, not many instances, and consequently want to be careful not to overfit our data. &lt;/p&gt;
+
+&lt;p&gt;Using the above relationship, we can calculate &lt;script type=&quot;math/tex&quot;&gt;k(T)&lt;/script&gt; for our five data points:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/coffee/k.pdf&quot; alt=&quot;k(V)&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;To the eye, it appears like this data is behaving something like a 1/x relationship, or &lt;script type=&quot;math/tex&quot;&gt; k \propto 1/V &lt;/script&gt;. We have to ask if this makes sense. If the data is linear with a negative slope, eventually &lt;script type=&quot;math/tex&quot;&gt; k &lt;/script&gt; will go negative. But this doesn’t make any physical sense. If &lt;script type=&quot;math/tex&quot;&gt; k &lt;/script&gt; goes negative, we might experience runaway temperature increase with a larger volume of water than our largest data point. Intuitively, it seems that &lt;script type=&quot;math/tex&quot;&gt; k &lt;/script&gt; will approach zero as volume increases (and, consequently, surface area to volume decreases). &lt;/p&gt;
+
+&lt;p&gt;I took the time to model this linearly and carry out the rest of the analysis for comparison. Scroll down to see how the results are affected. &lt;/p&gt;
+
+&lt;p&gt;I’ll assume &lt;script type=&quot;math/tex&quot;&gt; k (V) &lt;/script&gt; is a 1/x relationship. Thus, plotting the inverse of &lt;script type=&quot;math/tex&quot;&gt; k &lt;/script&gt; versus &lt;script type=&quot;math/tex&quot;&gt; V &lt;/script&gt; should look more like a line:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/coffee/invK.pdf&quot; alt=&quot;k-1(V)&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;We get a score &lt;script type=&quot;math/tex&quot;&gt; R^2 &lt;/script&gt; = 0.99 using simple linear regression. The line is described by:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;
+\begin{align*}
+
+	\frac{1}{k} = 4.4 V + 8.2
+
+\end{align*}
+&lt;/script&gt;
+
+&lt;p&gt;Rearranging to get time as a function of temperature and volume:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;
+\begin{align*}
+
+	t(T,V) = - ln(\frac{T - T_a}{T_i - T_a})\left[ 4.4 V + 8.2 \right]
+
+\end{align*}
+&lt;/script&gt;
+
+&lt;p&gt;We can now calculate &lt;script type=&quot;math/tex&quot;&gt; t(V) &lt;/script&gt; for given temperatures. Aeropress recommends 165˚ - 175˚ F, which corresponds to 75˚ - 80˚ C. So we’ll calculate the range for time based on our upper and lower bounds for temperature. &lt;/p&gt;
+
+&lt;p&gt;The relationship &lt;script type=&quot;math/tex&quot;&gt; t(V) &lt;/script&gt; works out to be linear, and we get the following graph as a result: &lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/coffee/time.pdf&quot; alt=&quot;t(V)&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Man, if that isn’t sexy, I don’t know what is. Remember back when we thought &lt;script type=&quot;math/tex&quot;&gt; k(V) &lt;/script&gt; was possibly linear? This is what it would pump out for our final graph (granted the equation to produce our data points isn’t the same, and we wouldn’t end up expecting it to be linear):&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/coffee/timeLinK.pdf&quot; alt=&quot;t(V) invK&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Sweet. &lt;/p&gt;
+
+&lt;p&gt;I computed the averages between high and low times and rounded to the nearest 30 seconds. Now I have usable numbers to work with. Cool!&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;Volume (C)&lt;/th&gt;
+      &lt;th style=&quot;text-align: right&quot;&gt;time (min)&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;2&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;4:30&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;3&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;6:00&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;4&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;7:00&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;5&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;8:30&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;6&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;9:30&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;7&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;11:00&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;8&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;12:00&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;9&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;13:30&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;10&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;14:30&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;11&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;16:00&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;12&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;17:00&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+</description>
+        <pubDate>Thu, 09 Oct 2014 00:00:00 -0400</pubDate>
+        <link>ryantuck.github.io/2014/10/09/cooling-experiment/</link>
+        <guid isPermaLink="true">ryantuck.github.io/2014/10/09/cooling-experiment/</guid>
+        
+        <category>random</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>Building a stripped down weather site</title>
+        <description>&lt;p&gt;This is the first of five installments in my Week of Hacks experiment. &lt;/p&gt;
+
+&lt;p&gt;If you’ve ever gone over to &lt;a href=&quot;&quot;&gt;weather.com&lt;/a&gt;, you’ll likely see something like this:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/weather/weather-com-ny.jpg&quot; alt=&quot;ads everywhere!&quot; /&gt; &lt;/p&gt;
+
+&lt;p&gt;Anyway, it’s awful. So I’m building a better web experience for myself. &lt;/p&gt;
+
+&lt;h3 id=&quot;why-it-sucks&quot;&gt;Why it sucks&lt;/h3&gt;
+
+&lt;p&gt;I shouldn’t need to sift through pages of ads to get the god damn weather. I also shouldn’t be assaulted with tons of utterly useless information like humidity. &lt;/p&gt;
+
+&lt;p&gt;I strongly believe these free sites that are littered with ads is &lt;em&gt;not&lt;/em&gt; the future of the web. Somebody smart will figure out the ad problem. But until then, this is what we’re stuck with.  &lt;/p&gt;
+
+&lt;p&gt;Ideally, I should land on one, quick-loading page that tells me everything I care about knowing, like the current temperature and the hourly forecast for the next few hours, as well as rain information. It should be displayed as simply as possible. Seems simple enough. &lt;/p&gt;
+
+&lt;h3 id=&quot;where-to-start&quot;&gt;Where to start?&lt;/h3&gt;
+
+&lt;p&gt;The data is out there. I wondered whether to write something that scraped data from a few websites, but figured I’d check the good old internet for any weather APIs first. &lt;/p&gt;
+
+&lt;p&gt;Of course, there’s a ton of results, and I found &lt;a href=&quot;http://developer.forecast.io&quot;&gt;developer.forecast.io&lt;/a&gt; to have the prettiest website of all the API sites, which is usually a good sign. I get 1000 free calls per day. After that, I start getting billed. Maybe that will be a problem once I make the coolest weather site around.&lt;/p&gt;
+
+&lt;p&gt;From their site, each call gives me: &lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Current conditions&lt;/li&gt;
+  &lt;li&gt;Minute-by-minute forecasts out to 1 hour (where available)&lt;/li&gt;
+  &lt;li&gt;Hour-by-hour forecasts out to 48 hours&lt;/li&gt;
+  &lt;li&gt;Day-by-day forecasts out to 7 days&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;And I can get all this in JSON format from:&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;https://api.forecast.io/forecast/APIKEY/LATITUDE,LONGITUDE&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Great! So how does that work? &lt;/p&gt;
+
+&lt;h3 id=&quot;getting-the-data-i-need&quot;&gt;Getting the data I need&lt;/h3&gt;
+
+&lt;p&gt;Simply googling ‘get json data from url’ gives me a bunch of Stack Overflow links. I love the internet. Apparently jQuery has a one-liner. That’s pretty great. &lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;$.getJSON(url,function(data){})&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;So - should be simple. I’ll just put this function into my javascript and print the results to the console. &lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;nx&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;getJSON&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;https://api.forecast.io/forecast/APIKEY/LATITUDE,LONGITUDE&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+	&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;){&lt;/span&gt;
+		&lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+	&lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Nope. Apparently that’s no good. I get the following error:&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;Origin http://localhost:4000 is not allowed by Access-Control-Allow-Origin&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;But, it’s still registering as a call, even though I’m getting the error. So I only have 996 more fuck-ups before I’ve got to delay work til tomorrow. Time to get serious. &lt;/p&gt;
+
+&lt;p&gt;Apparently this error is caused because I’m not allowed to just get data from domain A at domain B. Generally, browsers prohibit this. But luckily there’s a way to do it using JSONP, which basically turns the url into a &lt;code&gt;&amp;lt;script&amp;gt;&lt;/code&gt; source, which is of course allowed by browsers. &lt;/p&gt;
+
+&lt;p&gt;Figured I might try to solve it by using the github server instead of a local one. No dice. &lt;/p&gt;
+
+&lt;p&gt;I also kept googling JSONP tutorials, trying really hard to understand what kept giving me error messages. I tried switching &lt;code&gt;https&lt;/code&gt; to &lt;code&gt;http&lt;/code&gt; in my request, and doing all sorts of other hacks people suggested online. &lt;/p&gt;
+
+&lt;p&gt;And, of course, I learned a valuable lesson. Just google the specific problem for the specific site/service/api you’re using, and it’ll probably be the first result. &lt;/p&gt;
+
+&lt;p&gt;Turns out, for forecast.io, I need to append the query string &lt;code&gt;?callback=?&lt;/code&gt; to the end of my URL in the &lt;code&gt;getJSON()&lt;/code&gt; function. This callback function brings in the JSONP stuff somehow. Anyway, I need results. Only 4 hours left today. &lt;/p&gt;
+
+&lt;p&gt;Now that I successfully retrieved the data, I can access stuff like I would normally: &lt;code&gt;console.log(data.currently.summary)&lt;/code&gt; yields &lt;code&gt;Partly cloudy&lt;/code&gt;. Can confirm as I’m sitting outside. A-OK!&lt;/p&gt;
+
+&lt;h3 id=&quot;building-the-interface&quot;&gt;Building the Interface&lt;/h3&gt;
+
+&lt;p&gt;I need to determine what information is absolutely critical. Generally, I want to see:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;current temperature&lt;/li&gt;
+  &lt;li&gt;current cloud cover&lt;/li&gt;
+  &lt;li&gt;today’s high and low&lt;/li&gt;
+  &lt;li&gt;hourly temperatures&lt;/li&gt;
+  &lt;li&gt;hourly chance of rain&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;I’ll be focusing on a daily dashboard for now. I might be interested in adding a separate section for ‘tomorrow’ in a later update. Whatever. &lt;/p&gt;
+
+&lt;p&gt;So, in javascript, I’ll extract only the information I want out of the queried data for simplicity. &lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;lineno&quot;&gt; 1&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;now&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 2&lt;/span&gt;   	&lt;span class=&quot;s2&quot;&gt;&amp;quot;temp&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;currently&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;temperature&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 3&lt;/span&gt;   	&lt;span class=&quot;s2&quot;&gt;&amp;quot;summary&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;currently&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;summary&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 4&lt;/span&gt;   	&lt;span class=&quot;s2&quot;&gt;&amp;quot;time&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;currently&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;time&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 5&lt;/span&gt; 	&lt;span class=&quot;p&quot;&gt;};&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 6&lt;/span&gt; 	&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;today&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 7&lt;/span&gt; 		&lt;span class=&quot;s2&quot;&gt;&amp;quot;high&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;daily&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;].&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;temperatureMax&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 8&lt;/span&gt; 		&lt;span class=&quot;s2&quot;&gt;&amp;quot;low&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;daily&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;].&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;temperatureMin&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 9&lt;/span&gt; 	&lt;span class=&quot;p&quot;&gt;};&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;10&lt;/span&gt; 	&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;hourly&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[];&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;11&lt;/span&gt; 
+&lt;span class=&quot;lineno&quot;&gt;12&lt;/span&gt; 	&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;12&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;++&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;13&lt;/span&gt; 	&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;14&lt;/span&gt; 		&lt;span class=&quot;nx&quot;&gt;hData&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;15&lt;/span&gt; 			&lt;span class=&quot;s2&quot;&gt;&amp;quot;time&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;hourly&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;].&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;time&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;16&lt;/span&gt; 			&lt;span class=&quot;s2&quot;&gt;&amp;quot;temp&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;hourly&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;].&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;temperature&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;17&lt;/span&gt; 			&lt;span class=&quot;s2&quot;&gt;&amp;quot;precip&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;hourly&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;].&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;precipProbability&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;18&lt;/span&gt; 		&lt;span class=&quot;p&quot;&gt;};&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;19&lt;/span&gt; 		&lt;span class=&quot;nx&quot;&gt;hourly&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;push&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;hData&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;20&lt;/span&gt; 	&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;21&lt;/span&gt; 
+&lt;span class=&quot;lineno&quot;&gt;22&lt;/span&gt; 	&lt;span class=&quot;nx&quot;&gt;weatherData&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;23&lt;/span&gt; 		&lt;span class=&quot;s2&quot;&gt;&amp;quot;now&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;now&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;24&lt;/span&gt; 		&lt;span class=&quot;s2&quot;&gt;&amp;quot;today&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;today&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;25&lt;/span&gt; 		&lt;span class=&quot;s2&quot;&gt;&amp;quot;hourly&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;hourly&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;26&lt;/span&gt; 	&lt;span class=&quot;p&quot;&gt;};&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Now that I have all that, I just need to use jQuery to update various elements on my weather page. &lt;/p&gt;
+
+&lt;p&gt;This was straightforward, except for the jQuery implementation for tying up my hourly data to the html. In Angular, I could just use an &lt;code&gt;ng-repeat&lt;/code&gt; directive in the html itself to repeat the hourly data. In jQuery, it’s a bit more kloodgy, but I got it to work: &lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;lineno&quot;&gt; 1&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;#hours12&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;children&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;.col-1-12&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;each&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;index&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 2&lt;/span&gt; 
+&lt;span class=&quot;lineno&quot;&gt; 3&lt;/span&gt; 		&lt;span class=&quot;c1&quot;&gt;// grab date&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 4&lt;/span&gt; 		&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;hourDate&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;Date&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;weatherData&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;hourly&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;index&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;].&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;time&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1000&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 5&lt;/span&gt; 		&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;hour24&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;hourDate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;getHours&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 6&lt;/span&gt; 
+&lt;span class=&quot;lineno&quot;&gt; 7&lt;/span&gt; 		&lt;span class=&quot;c1&quot;&gt;// set am/pm&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 8&lt;/span&gt; 		&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;half&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;a&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 9&lt;/span&gt; 		&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;hour24&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;12&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;half&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;p&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;10&lt;/span&gt; 
+&lt;span class=&quot;lineno&quot;&gt;11&lt;/span&gt; 		&lt;span class=&quot;c1&quot;&gt;// get &amp;#39;normal&amp;#39; time instead of military&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;12&lt;/span&gt; 		&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;hour&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;hour24&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;12&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;13&lt;/span&gt; 		&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;hour&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;hour&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;12&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;14&lt;/span&gt; 
+&lt;span class=&quot;lineno&quot;&gt;15&lt;/span&gt; 		&lt;span class=&quot;c1&quot;&gt;// round precipitation data and hide if 0%&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;16&lt;/span&gt; 		&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;rain&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;Math&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;round&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;weatherData&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;hourly&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;index&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;].&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;precip&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;17&lt;/span&gt; 		&lt;span class=&quot;nx&quot;&gt;rainString&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;rain&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot; %&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;18&lt;/span&gt; 		&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;rain&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;rainString&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;};&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;19&lt;/span&gt; 
+&lt;span class=&quot;lineno&quot;&gt;20&lt;/span&gt; 		&lt;span class=&quot;c1&quot;&gt;// set relevant elements with data&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;21&lt;/span&gt; 		&lt;span class=&quot;nx&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;find&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;.hourTemp&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;Math&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;round&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;weatherData&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;hourly&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;index&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;].&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;temp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;22&lt;/span&gt; 		&lt;span class=&quot;nx&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;find&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;.hourPrecip&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;rainString&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;23&lt;/span&gt; 		&lt;span class=&quot;nx&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;find&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;.hourTime&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;Math&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;round&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;hour&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;&amp;quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;half&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;24&lt;/span&gt; 
+&lt;span class=&quot;lineno&quot;&gt;25&lt;/span&gt; 	&lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Anyway, v1 of my project is here:&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;/weather&quot;&gt;ryantuck.io/weather&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Feel free to use it. It’s fast and to the point. Objective complete. Enjoy!&lt;/p&gt;
+
+</description>
+        <pubDate>Mon, 29 Sep 2014 00:00:00 -0400</pubDate>
+        <link>ryantuck.github.io/2014/09/29/weather-interface/</link>
+        <guid isPermaLink="true">ryantuck.github.io/2014/09/29/weather-interface/</guid>
+        
+        <category>hacks</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>Modified Gravity and Dark Matter</title>
+        <description>&lt;p&gt;I wrote this in college. Just found it. It’s about modified gravity hypotheses, which are alternative explanations to the same weird phenomenon that made physicists think up ‘dark matter’ in the first place. Enjoy. &lt;/p&gt;
+
+&lt;h2 id=&quot;purpose--direction&quot;&gt;Purpose &amp;amp; Direction&lt;/h2&gt;
+
+&lt;p&gt;The Dark Matter Hypothesis has been a point of discussion in the Physics community since Fritz Zwicky’s suggestion of it in 1933 as an explanation for observed behavior of galaxy cluster rotation. In almost 80 years, the make-up of this hypothetical matter is still unknown and has never been directly observed. Monstrous neutrino detectors costing hundreds of millions of dollars are being constructed and operating deep underground in laboratories to hopefully discover evidence of dark matter’s existence and make-up. &lt;/p&gt;
+
+&lt;p&gt;Alternative theories of gravity, collectively known as Modified Gravitation (MG), have been proposed to explain these otherwise irreconcilable phenomena without requiring the existence of dark matter. One issue with these theories, which in general posit slight changes to Einstein’s field equations of general relativity, is that they all operate slightly differently and there is a disconnect between the various phenomena they attempt to explain. &lt;/p&gt;
+
+&lt;p&gt;Some proponents of MG theories suggest that ideas regarding dark matter do not necessarily find themselves within the realm of Science as a discipline. The famed 20th century philosopher Karl Popper suggested that scientific theories necessarily must be falsifiable, lest these claims fall into the realm of theology, philosophy, or mere opinion. Taken in this context, the pursuit of elusive dark matter becomes more of a philosophical investigation than actual science. This “downgraded” status means that these explorations carry much less import than other theories that remain true to the essence of Science. As such, anomalies in cosmological data should forgo further research into dark matter and instead focus primarily on developing current and new MG theories that offer explanations of the same phenomena without resort to hypothetical unobservables. &lt;/p&gt;
+
+&lt;h2 id=&quot;context&quot;&gt;Context&lt;/h2&gt;
+
+&lt;h3 id=&quot;a-brief-history-of-the-physics-and-philosophy-of-gravitation&quot;&gt;A Brief History of the Physics and Philosophy of Gravitation&lt;/h3&gt;
+
+&lt;p&gt;The movement of the celestial bodies has always fascinated mankind. Although early thinkers such as Aristotle, Plato, and Hipparchus mused on the nature of the heavens, the first real scientific analysis of the motions of these bodies is usually attributed to Ptolemy, who wrote in greek during the second century CE, when the Earth was still considered the center of the Universe. In his Almagest, he suggests the movements of the planetary bodies revolved around the Earth in more or less circular orbits that also underwent movement through epicycles, ultimately characterizing a loopy passage through space (Figure 1). These paths were based on both observations and the particular philosophy he brought to his work - namely, a geocentric view of the Universe. It is evident, from what we currently know about the behavior of the solar system, that the influence of the geocentric view greatly skewed this thinker’s ability to postulate accurately about stars and planets. &lt;/p&gt;
+
+&lt;p&gt;Early in the 1500s, Nicolaus Copernicus published his seminal work, De revolutionibis orbium coelestium (On the Revolutions of the Celestial Spheres), in which he explicates a heliocentric view of the Universe and thus sparks what is known as the Copernican Revolution. He is responsible for positing that the Sun is the center of the Universe about which all else revolves. This hypothesis greatly outraged the powerful Catholic Church at the time, as it challenged the prevailing “philosophy” of man’s central position in the cosmos. &lt;/p&gt;
+
+&lt;p&gt;Near the end of Copernicus’s life, both Galileo Galilei and Johannes Kepler were hard at work on theories inspired by this great thinker. Kepler is primarily responsible for describing the three rules of planetary motion and correctly asserting that celestial bodies take an elliptical orbit around the sun. Galileo, using his improved telescope that he invented, discovered the moons orbiting Jupiter, essentially putting the nail in the coffin of geocentrism. The fact that Galileo was infamously condemned during the Inquisition is testament to the scientific vision of putting facts before previously-held philosophies, thus allowing new ones to develop from the ashes of the old. These advancements, among others, set the stage for one of the largest figures in the Scientific world, whose ideas would serve as a starting point for a mathematical description of the Universe. &lt;/p&gt;
+
+&lt;p&gt;Sir Isaac Newton, in 1687, fundamentally revolutionized Physics and distinctly set it apart from philosophy as a science in the most fundamental sense. In his Principia Mathematica, he puts forth his universal theory of gravitation, which, he suggests, is a mathematical law in the form of a single equation that governs all motion of bodies in the Universe. Although this theory can successfully explain the motion of both celestial and terrestrial bodies, Newton acknowledges that he cannot account for what exactly gravity is, or by what mechanism it is mediated. Newton was deeply troubled by this mysterious ‘action at a distance’, but he was confident in the mathematics, and mused privately over how this could all be true. His equation for gravity saw hundreds of years of great success, firmly planting him in the history books as one of the fathers of science. &lt;/p&gt;
+
+&lt;p&gt;Scientific theories are only valid until an exception to the rule is found, which prompts further investigation into the field. Albert Einstein, in the early 1900s, put forth his theory of special relativity, which merged the concepts of space and time as an inextricably linked whole. He later began to examine Newton’s law of gravitation in the context of his unified spacetime and began another scientific revolution when he proposed general relativity in 1916. Essentially, the problem Newton had with action at a distance also bothered Einstein, who postulated that gravity was synonymous with the warping of spacetime, and more massive objects warped the fabric of spacetime more than less massive ones. Einstein’s theory was thoroughly tested and was found to be in concordance with Newton’s gravity at low speeds, and could also explain other recently observed phenomena that did not correspond with Newton’s equation. It seemed as though the issue of gravity’s behavior had mostly been solved in this triumph and could act as a firm ground upon which other theories may build themselves. &lt;/p&gt;
+
+&lt;h2 id=&quot;dark-matter&quot;&gt;Dark Matter&lt;/h2&gt;
+
+&lt;p&gt;Developments in astronomy led to the ability to probe ever deeper into the vast expanses of the Universe. Einstein’s general relativity brought about a prolific burst of cosmological ideas during the 1920s and 1930s, around the same time that quantum mechanics was probing deeper and deeper into the microscopic structure of matter. Big Bang Cosmology was developing as an explanatory framework for the origin of the Universe. In the midst of all of these developments, a swiss astronomer named Fritz Zwicky in 1934 found an anomaly between his observations of galaxy clusters and accepted gravitational theory, and put forth an idea that would change the overall picture of astronomy for decades. &lt;/p&gt;
+
+&lt;p&gt;Zwicky, in his On the Masses of Nebulae and of Clusters of Nebulae, describes how the rotational speeds of the Coma cluster of galaxies was much faster than would be predicted by applying standard gravitational theory to the system. He postulates that there must be significantly more mass concentrated at the center of this cluster to make up for this discrepancy, but it was undetectable by telescopes and thus didn’t interact with light. Thus, the idea of dark matter was born. &lt;/p&gt;
+
+&lt;p&gt;As technology improved, more similar observations began to come forth from the physics community. In 1970, Vera Rubin observed the rotation of a single galaxy and determined that the stars contained within all rotated at roughly the same speed, despite their distance from the center of the galaxy. This behavior mimics that of a spinning disc with an even distribution of mass throughout. Despite the uneven distribution of stars in the galaxy, Rubin postulated this missing mass must be the same dark matter that Zwicky had mentioned some forty years earlier. After she published her results in 1980, other evidence soon followed that agreed with these observations, and it gradually became accepted that most observed galaxies consisted of a large amount of dark matter. &lt;/p&gt;
+
+&lt;p&gt;Galaxy cluster rotation and galaxy rotation are two similar ways of observing evidence for dark matter. A third method is via the phenomenon of gravitational lensing, whereby light is bent around a massive object on its way to an observer. Measurements using this method and an understanding of general relativity can predict the masses of the objects around which the light bends. These observations also lead astronomers to believe there is unaccounted-for mass in certain galaxies in a completely different fashion than the method of galaxy or cluster rotation. Dark matter proponents point to the fact that two separate phenomena producing a seemingly similar result is strong evidence of the existence of this dark matter. &lt;/p&gt;
+
+&lt;p&gt;Like most hypotheses, however, this one is not without inconsistent observations. Some collections of galaxies, known as globular clusters, show little or inconsistent evidence of dark matter. Other galaxies, known as dwarf galaxies for their small size, behave in a fashion consistent with how galaxies would behave in the complete absence of dark matter. While dark matter proponents have proposed potential resolutions to these issues, no evidence has come forth to support them and these remain anomalies. And all hypotheses that lack direct evidence must be subject to scrutiny from the discerning scientific eye. &lt;/p&gt;
+
+&lt;p&gt;Direct detection of dark matter in general has never been achieved. This is partly due to the fact that it is, in the first place, dark, and thus evades detection from telescopes and microwave detectors. Another issue is that the composition of dark matter is completely unknown, and a general consensus has not even been achieved on what it may be made of. Many physicists point to neutrinos, an extremely small, almost undetectable, electrically neutral elementary particle as the primary candidate for dark matter. Hypothetical particles have also been suggested as the primary constituents of dark matter. These range from WIMPs (Weakly Interacting Massive Particles) to MACHOs (Massive Compact Halo Objects) to RAMBOs (Robust Associations of Massive Baryonic Objects) to form a colorful spectrum of imaginary names. &lt;/p&gt;
+
+&lt;p&gt;In 2006, a merging of two galaxies known as the Bullet Cluster gave proponents of dark matter serious hope, as subsequent observations of the cluster’s mass distribution was distinctly different than before the collision. After the collision of these clusters, the observable mass tended to congregate in the center of the pair, while most of the mass was determined to be on the outer region of the pair via gravitational lensing. This implies that the visible matter of one cluster was slowed down by the other via electromagnetic and gravitational forces, but the dark matter, not being subject to electromagnetic forces, passed through the collision and ended up on the outer edges of the pair. &lt;/p&gt;
+
+&lt;p&gt;An analysis of another cluster, however, seems to deal a blow to dark matter theory in the opposite way. The Train Wreck Cluster, observed in 2007, is the result of a merger between two clusters that ended up in exactly the opposite formation as the Bullet Cluster - that is, with a large “dark core” and visible matter on the outsides. Thus, either the logic that applied to the Bullet Cluster’s merging behavior is flawed, the logic applied to the Train Wreck Cluster’s merging is flawed, or there is some other explanatory framework that could play a part to save dark matter. Another option, of course, is that dark matter is not the phenomenon many astronomers have thought it was, and that an entirely new explanatory framework is required to account for all of the aforementioned phenomena.&lt;/p&gt;
+
+&lt;h3 id=&quot;modified-gravity&quot;&gt;Modified Gravity&lt;/h3&gt;
+
+&lt;p&gt;Much in the same way that Einstein had altered Newton’s views of gravity to make for a more comprehensive theory, Modified Gravity tries to alter both Newton’s and Einstein’s equations to fit cosmological data without positing the existence of dark matter. Modified gravity comes in many flavors that focus on different portions of Einstein’s field equations for general relativity or Newton’s original gravitation equation that still holds at relatively low speeds. Many of the theories build on the successes or failures of previous modified gravity theories and vary with respect to their ability to explain the different phenomena that lead to the postulation of dark matter. &lt;/p&gt;
+
+&lt;p&gt;In 1983 Mordehai Milgrom proposed Modified Newtonian Dynamics (MOND) in an attempt to explain the issue of galaxy rotation. He proposed that, at extremely low accelerations (like those found at the outer rim of a galaxy), Newton’s original equation of gravity does not hold, and the galaxy rotation curve flattens out at far enough distances. This correlates directly with observations of galaxy rotation that prompted Rubin to posit the existence of dark matter. The main issue with MOND is that it is non-relativistic - essentially allowing it to only be employed for phenomena occurring at low velocities, thus it cannot account for gravitational lensing effects. It did, however, serve as the fertile ground from which other modified gravity theories could spring.&lt;/p&gt;
+
+&lt;p&gt;Jacob Bekenstein provided in 2004 a relativistic version of MOND known as Tensor-Vector-Scalar Gravity, or TeVeS for short. TeVeS has enjoyed much success in describing both the galaxy rotation curve a la MOND as well as being able to explain gravitational lensing phenomena with accuracy. It also can be derived from more basic principles than MOND, and therefore respects conservation laws, which MOND under some circumstances does not. TeVeS has met criticism on a particularly interesting point - namely, the lifetime of a given star. Michael Seifert claims that a star in TeVeS would only have a lifetime of about two weeks, which is obviously an absurd conclusion to draw. Luckily for modified gravity proponents, TeVeS and MOND are two of a handful of theories attempting to explain away dark matter. 
+Another non-intuitively-named theory emerged in 2006 through John Moffat known as Scalar-Tensor-Vector Gravity (STVG). It fundamentally states that at close enough distances mass is actually subjected to a repelling force and at large distances actually experiences a stronger force due to gravity than Newton had predicted. STVG has enjoyed huge successes in explaining problems of galaxy rotation, cluster mass, and gravitational lensing in the Bullet Cluster, as well as being completely in line with general relativity. The ideas of this theory are still awaiting further technological advances that would soon be able to verify or falsify further cosmological predictions. &lt;/p&gt;
+
+&lt;p&gt;A completely alternative theory of gravity, worth noting here due to its uniqueness, is the theory of entropic gravity, proposed by Erik Verlinde in 2009 and published in 2011. This theory essentially states that gravity is not a fundamental force of nature, but is rather the result of the Universe’s tendency towards increasing entropy, or disorder. The theory was greeted with much excitement and mixed reaction, and awaits further investigation to determine its effects on the debate over dark matter and modified gravity. &lt;/p&gt;
+
+&lt;h3 id=&quot;philosophical-implications&quot;&gt;Philosophical Implications&lt;/h3&gt;
+
+&lt;p&gt;The debate between whether dark matter or modified gravity is a more appropriate explanatory framework for the Universe not only relies on collection of data, but also on the philosophical implications of each. Both attempt, at least somewhat successfully, to rectify anomalies that arise when applying Newtonian gravity and general relativity to certain cosmological phenomena. The method by which each of these theoretical tools attempts to solve these issues has profound ontological implications and opens up fundamental questions about what science really is in the first place.&lt;/p&gt;
+
+&lt;p&gt;When faced with multiple competing explanations for the same phenomenon, a simple rule of thumb, named after the 14th century logician William of Ockham, can help narrow down the decision. Ockham’s Razor, also known as the law of parsimony, suggests that we “do not multiply entities beyond necessity”, or that we “choose the least complex explanation for a particular phenomenon.” Although this rule is not necessarily grounded in the mechanisms of logic like the principle of contradiction (a thing cannot be its opposite), it has been utilized by scientists throughout the years to construct a simple, harmonious picture of how the world works, and has had many successes. Sometimes these simpler explanations that arise from employing Ockham’s Razor end up being rejected later by experimental evidence and more complex mechanisms are determined to be the cause of a certain phenomenon. Either way, it is a most beneficial rule of thumb that can help “weed out” exceptionally extravagant propositions. &lt;/p&gt;
+
+&lt;p&gt;By positing dark matter’s existence in the cosmos, we are introducing another entity into our ontological understanding of the Universe. This is not like a mere addition of just another gadget, such as an iPhone, into our already populous realm of gadgets such as laptops, GPS devices, gameboys, and the like. Allowing dark matter into our Universal-physical ontology fundamentally alters the way in which matter is traditionally viewed - namely, its standing as the basic material constituent of Being. Outweighing ordinary visible matter by a factor of 5 to 1, dark matter thus constitutes the majority of reality as we know it - yet we cannot even point to what, exactly, it is.&lt;/p&gt;
+
+&lt;p&gt;The ungrounded nature of dark matter puts cosmology, astronomy, and physics in general on shaky footing, if on any footing at all. It has been noted that the term “dark matter” is more an expression of human ignorance, considering the composition, and thus the “thinghood”, of dark matter is unknown. For all we know, dark matter could be made up of fairies, angels, leprechauns, or any other agents that have been historically used to explain phenomena to children. It could also, of course, prove to be made up of neutrinos, WIMPs, RAMBOs, or MACHOs. Dark matter has been taken as an almost certainly existing entity, yet what is actually existing remains a mystery.&lt;/p&gt;
+
+&lt;p&gt;Modified gravity generally has the benefit of not multiplying entities beyond necessity. It takes Ockham’s Razor seriously and addresses this rule of thumb at its limits. A Newtonian view of gravity - that all gravitational phenomena behave according to a simple equation, was shown to be a shortsighted employment of this maxim. Much in the same vein, modified gravity attempts to show that Einstein’s general relativity is also an overly simple framework for the behavior of the cosmos. Instead of proposing a mysterious entity that behaves according to general relativity, modified gravity proposes that the mechanisms that govern the motion of matter are not quite fully understood, but can be. In this sense, modified gravity does not shake our Universal-physical ontology to its foundations, but seeks to better understand these foundations and explain the intricacies found within. &lt;/p&gt;
+
+&lt;p&gt;Both of these ideas generally fall within a scientific discussion in the field of physics. As a science, this discipline essentially deals with testable hypotheses and theories. Karl Popper sought to bring Science itself into relief by claiming that this activity necessarily deals with falsifiable claims, or ones that can be shown to be true or untrue. Claims that take themselves seriously and do not meet this requirement are essentially philosophical. Claims such as “god answers prayers” or “unicorns are real” tend towards theology or fiction, and aren’t relevant to the discussion at hand.&lt;/p&gt;
+
+&lt;p&gt;Solipsism, or the idea that all of reality is a mere hallucination or dream conjured up in one existing mind belonging to an observer, provides a fertile ground for a discussion on falsifiability. An individual can claim that there is no objective reality and that all he experiences is akin to a dream, but he has no way of actually determining whether or not this is true. Thus, solipsism has not found its way into the realm of science, and remains an interesting philosophical discussion point. &lt;/p&gt;
+
+&lt;p&gt;Much in the same way, dark matter must accept this same fate in the eyes of Popper. Since its composition, or essence, is fundamentally unknown, the claim, “dark matter exists” necessarily carries the same weight of the claim of solipsism. Yes, it is an interesting philosophical idea that allows physicists to stretch their minds, but does not necessarily prove to be falsifiable, and therefore cannot really be considered scientific. Modified gravity, on the other hand, is scientific for precisely this reason. Any equation conjured up by physicists researching the subject can, with the right equipment, be tested and subjected to Popper’s rigorous falsifiability test. If it fails, yet another hypothesis can be posed and tested, and so on, ad infinitum. This is the trusted scientific method that has built up the edifice of modern thought, and, as such, has a fine track record with regards to physical reality. This is not to mention the successes that modified gravity has had, particularly in the form of Moffat’s STVG, at explaining phenomena associated with dark matter. &lt;/p&gt;
+
+&lt;h2 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h2&gt;
+
+&lt;p&gt;Modified gravity has proven to be a formidable scientific pursuit, being able to describe phenomena usually explained through the existence of mysterious dark matter. Considering dark matter research is now underway and consists of spending millions of dollars to install detectors for only one of many potential candidates of its make-up, it seems that the priorities of the physics community are not in the right place. Providing funding for further research into modified gravity promises to lead to fruitful insights about the nature of the cosmos while staying true to science as a discipline. While the philosophical implications of dark matter no doubt have surfaced questions about the potential constitution of the Universe, there is not enough direct observational evidence to justify investing in further detectors designed to find neutrinos, WIMPs, leprechauns, or other potential constituents of this mysterious substance. In the spirit of Science, falsifiability, Ockham’s Razor, and pragmatism, it is hoped that funding which would otherwise go towards dark matter research may be redirected to the more ripe field of modified gravity in the belief that this will ultimately contribute to perhaps the most noble  and interesting of all human pursuits - the understanding of the Nature of the Universe. &lt;/p&gt;
+</description>
+        <pubDate>Fri, 26 Sep 2014 00:00:00 -0400</pubDate>
+        <link>ryantuck.github.io/2014/09/26/modified-gravity-and-dark-matter/</link>
+        <guid isPermaLink="true">ryantuck.github.io/2014/09/26/modified-gravity-and-dark-matter/</guid>
+        
+        <category>random</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>Special characters!</title>
+        <description>&lt;p&gt;In case you were wondering, here are some special characters you can type. &lt;/p&gt;
+
+&lt;p&gt;I like having these for reference&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;letter&lt;/td&gt;
+      &lt;td&gt;a&lt;/td&gt;
+      &lt;td&gt;b&lt;/td&gt;
+      &lt;td&gt;c&lt;/td&gt;
+      &lt;td&gt;d&lt;/td&gt;
+      &lt;td&gt;e&lt;/td&gt;
+      &lt;td&gt;f&lt;/td&gt;
+      &lt;td&gt;g&lt;/td&gt;
+      &lt;td&gt;h&lt;/td&gt;
+      &lt;td&gt;i&lt;/td&gt;
+      &lt;td&gt;j&lt;/td&gt;
+      &lt;td&gt;k&lt;/td&gt;
+      &lt;td&gt;l&lt;/td&gt;
+      &lt;td&gt;m&lt;/td&gt;
+      &lt;td&gt;n&lt;/td&gt;
+      &lt;td&gt;o&lt;/td&gt;
+      &lt;td&gt;p&lt;/td&gt;
+      &lt;td&gt;q&lt;/td&gt;
+      &lt;td&gt;r&lt;/td&gt;
+      &lt;td&gt;s&lt;/td&gt;
+      &lt;td&gt;t&lt;/td&gt;
+      &lt;td&gt;u&lt;/td&gt;
+      &lt;td&gt;v&lt;/td&gt;
+      &lt;td&gt;w&lt;/td&gt;
+      &lt;td&gt;x&lt;/td&gt;
+      &lt;td&gt;y&lt;/td&gt;
+      &lt;td&gt;z&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;option&lt;/td&gt;
+      &lt;td&gt;å&lt;/td&gt;
+      &lt;td&gt;∫&lt;/td&gt;
+      &lt;td&gt;ç&lt;/td&gt;
+      &lt;td&gt;∂&lt;/td&gt;
+      &lt;td&gt;´&lt;/td&gt;
+      &lt;td&gt;ƒ&lt;/td&gt;
+      &lt;td&gt;©&lt;/td&gt;
+      &lt;td&gt;˙&lt;/td&gt;
+      &lt;td&gt;ˆ&lt;/td&gt;
+      &lt;td&gt;∆&lt;/td&gt;
+      &lt;td&gt;˚&lt;/td&gt;
+      &lt;td&gt;¬&lt;/td&gt;
+      &lt;td&gt;µ&lt;/td&gt;
+      &lt;td&gt;˜&lt;/td&gt;
+      &lt;td&gt;ø&lt;/td&gt;
+      &lt;td&gt;π&lt;/td&gt;
+      &lt;td&gt;œ&lt;/td&gt;
+      &lt;td&gt;®&lt;/td&gt;
+      &lt;td&gt;ß&lt;/td&gt;
+      &lt;td&gt;†&lt;/td&gt;
+      &lt;td&gt;¨&lt;/td&gt;
+      &lt;td&gt;√&lt;/td&gt;
+      &lt;td&gt;∑&lt;/td&gt;
+      &lt;td&gt;≈&lt;/td&gt;
+      &lt;td&gt;¥&lt;/td&gt;
+      &lt;td&gt;Ω&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;shift-option&lt;/td&gt;
+      &lt;td&gt;Å&lt;/td&gt;
+      &lt;td&gt;ı&lt;/td&gt;
+      &lt;td&gt;Ç&lt;/td&gt;
+      &lt;td&gt;Î&lt;/td&gt;
+      &lt;td&gt;´&lt;/td&gt;
+      &lt;td&gt;Ï&lt;/td&gt;
+      &lt;td&gt;˝&lt;/td&gt;
+      &lt;td&gt;Ó&lt;/td&gt;
+      &lt;td&gt;ˆ&lt;/td&gt;
+      &lt;td&gt;Ô&lt;/td&gt;
+      &lt;td&gt;&lt;/td&gt;
+      &lt;td&gt;Ò&lt;/td&gt;
+      &lt;td&gt;Â&lt;/td&gt;
+      &lt;td&gt;˜&lt;/td&gt;
+      &lt;td&gt;Ø&lt;/td&gt;
+      &lt;td&gt;∏&lt;/td&gt;
+      &lt;td&gt;Œ&lt;/td&gt;
+      &lt;td&gt;‰&lt;/td&gt;
+      &lt;td&gt;Í&lt;/td&gt;
+      &lt;td&gt;ˇ&lt;/td&gt;
+      &lt;td&gt;¨&lt;/td&gt;
+      &lt;td&gt;◊&lt;/td&gt;
+      &lt;td&gt;„&lt;/td&gt;
+      &lt;td&gt;˛&lt;/td&gt;
+      &lt;td&gt;Á&lt;/td&gt;
+      &lt;td&gt;¸&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+</description>
+        <pubDate>Thu, 11 Sep 2014 00:00:00 -0400</pubDate>
+        <link>ryantuck.github.io/2014/09/11/special-chars/</link>
+        <guid isPermaLink="true">ryantuck.github.io/2014/09/11/special-chars/</guid>
+        
+        <category>random</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>Project Euler 6 - Sum Square Difference</title>
+        <description>&lt;p&gt;&lt;a href=&quot;http://projecteuler.net/problem=6&quot;&gt;Problem 6&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;We need to find the difference between the sum of squares and the square of the sum of the numbers &lt;code&gt;1 - 100&lt;/code&gt;. &lt;/p&gt;
+
+&lt;p&gt;We could obviously just write a for loop to calculate both sums and then get the difference. But that’s no fun. &lt;/p&gt;
+
+&lt;p&gt;I imagine there’s got to be some more fundamental relationship that will cut down on computing time. &lt;/p&gt;
+
+&lt;p&gt;After some &lt;a href=&quot;#scribbles&quot;&gt;whiteboard scribbling&lt;/a&gt;, I came up with the following formula:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;
+\begin{align*}
+
+	\Delta_n = \Delta_{n-1} + 2n \left( \sum^{n-1} x_i \right)
+	
+\end{align*}
+&lt;/script&gt;
+
+&lt;p&gt;This kind of relationship means we can use our trusty friend recursion to solve the problem. &lt;/p&gt;
+
+&lt;p&gt;Let’s get into it. &lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-python&quot; data-lang=&quot;python&quot;&gt;&lt;span class=&quot;lineno&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;diffSqSums&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;2&lt;/span&gt;     
+&lt;span class=&quot;lineno&quot;&gt;3&lt;/span&gt;     &lt;span class=&quot;n&quot;&gt;prevDiff&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;4&lt;/span&gt;     &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;n&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;5&lt;/span&gt;         &lt;span class=&quot;n&quot;&gt;prevDiff&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;diffSqSums&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;6&lt;/span&gt;     
+&lt;span class=&quot;lineno&quot;&gt;7&lt;/span&gt;     &lt;span class=&quot;n&quot;&gt;diff&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;prevDiff&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sum&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;range&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;8&lt;/span&gt;     
+&lt;span class=&quot;lineno&quot;&gt;9&lt;/span&gt;     &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;diff&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;The result: &lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;diffSqSums(100) = 25164150&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Now, how does this compare to just computing it brute-force? Let’s time the algorithms. &lt;/p&gt;
+
+&lt;p&gt;diffSqSums(100) – 0.000768 s&lt;/p&gt;
+
+&lt;p&gt;bruteForce(100) – 0.000271 s&lt;/p&gt;
+
+&lt;p&gt;Yikes. Looks like brute force is about 3x faster than our recursive algorithm. &lt;/p&gt;
+
+&lt;p&gt;So remember, boys and girls. Sometimes getting fancy isn’t the play. &lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a name=&quot;scribbles&quot;&gt;&lt;/a&gt;
+&lt;img src=&quot;/img/euler/6/whiteboard.jpg&quot; alt=&quot;scribblins&quot; /&gt;&lt;/p&gt;
+
+</description>
+        <pubDate>Thu, 11 Sep 2014 00:00:00 -0400</pubDate>
+        <link>ryantuck.github.io/2014/09/11/euler6/</link>
+        <guid isPermaLink="true">ryantuck.github.io/2014/09/11/euler6/</guid>
+        
+        <category>euler</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>Fix desktop picture changing on restart</title>
+        <description>&lt;p&gt;I had an annoying problem where my desktop image would revert to the OSX default or a previous desktop image I had used. &lt;/p&gt;
+
+&lt;p&gt;To fix it, you need to remove your desktop preferences files. &lt;/p&gt;
+
+&lt;p&gt;They’re located in &lt;code&gt;Macintosh HD/Library/Preferences/&lt;/code&gt; and are titled:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;com.apple.desktop.plist
+com.apple.desktop.plist.lockfile&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Either nav to them in finder and delete them or, if you want to feel cool, fire up Terminal and type the following:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;$ cd /Library/Preferences/
+$ rm com.apple.desktop.plist
+$ rm com.apple.desktop.plist.lockfile&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Change your background, restart your computer, and voila! I think it’s fixed. &lt;/p&gt;
+</description>
+        <pubDate>Tue, 09 Sep 2014 00:00:00 -0400</pubDate>
+        <link>ryantuck.github.io/2014/09/09/fix-desktop-pic/</link>
+        <guid isPermaLink="true">ryantuck.github.io/2014/09/09/fix-desktop-pic/</guid>
+        
+        <category>tutorial</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>A terrible TP holder</title>
+        <description>&lt;p&gt;Somehow, I came to own a toilet paper holder. These kinds of things happen as you age. &lt;/p&gt;
+
+&lt;p&gt;I’m very unhappy with it. Granted, I’m not going to shell out for a new toilet paper holder. it’s about as low on the priority list as possible, but still drives me nuts every other week when I refill it. &lt;/p&gt;
+
+&lt;p&gt;Here’s the culprit, riddled with awful design:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/tp-holder/tp-holder.jpg&quot; alt=&quot;the work of the devil&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;What on god’s green earth were the designers thinking? This thing has literally one job - to hold up to three tp rolls until needed. It’s a god damn failure. &lt;/p&gt;
+
+&lt;p&gt;Why can’t I just drop a roll in and have it go straight to the bottom? &lt;strong&gt;Why&lt;/strong&gt; would anyone think spaced out rings would be the best structure for this? I will venture to say it’s about as awful a design as it could possibly be while still being functional enough to not throw in the garbage. &lt;/p&gt;
+
+&lt;p&gt;Getting the next roll of tp out is just as difficult as putting one in. There actually is an opening in the side to facilitate this, which I can’t access due to my space constraints. But even if I had access to it - it only goes down half way. What about when the user needs to access that last roll? I have to shove my arm down the entire thing, grab the inside of the roll by making a peace sign with my fingers, and and pull it up slowly, hoping the roll doesn’t get caught on those stupid metal rings. &lt;/p&gt;
+
+&lt;p&gt;So how would I do it? Simple. Put the vertical metal pieces on the inside of the rings, and increase the diameter of the thing slightly. This allows rolls to slide down effortlessly. Make three thin channels, 90 degrees apart, that go all the way to the bottom of the tp holder for easy removal. There are three of them for easy access to your tp no matter how your bathroom is laid out. Since the vertical poles at the top may catch the rolls upon entry, file them down and smooth out their edges to make a clean transition to the top-most ring. &lt;/p&gt;
+
+&lt;p&gt;A better design might even involve simply removing half of the siding, making the tp holder act more as a shelf than a tube. After all, it’s hanging on arguably the most stationary object in your entire house. It’s not going anywhere. &lt;/p&gt;
+
+&lt;p&gt;I could do a killer redesign of this toilet paper holder. That is, unless it’s not a toilet paper holder at all. &lt;/p&gt;
+
+</description>
+        <pubDate>Tue, 02 Sep 2014 00:00:00 -0400</pubDate>
+        <link>ryantuck.github.io/2014/09/02/tp-holders/</link>
+        <guid isPermaLink="true">ryantuck.github.io/2014/09/02/tp-holders/</guid>
+        
+        <category>random</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>Project Euler 5 - Smallest Multiple</title>
+        <description>&lt;ul&gt;
+  &lt;li&gt;note: I started this article without having looked at the problem. In my previous ones, I had solved the issue at hand, and then backtracked to explain it. I kind of like the Joyce-esque stream of consciousness feel to it. &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://projecteuler.net/problem=5&quot;&gt;Problem 5&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Apparently the smallest number divisible by the first 10 digits is &lt;code&gt;2520&lt;/code&gt;. What is the smallest number divisible by &lt;code&gt;1-20&lt;/code&gt;?&lt;/p&gt;
+
+&lt;p&gt;It seems like it’ll be easy to find the answer. First, we know there are some numbers we don’t have to test for, because those numbers (e.g. 2 and 5) comprise larger numbers that we know we’ll have to test for (e.g. 10). &lt;/p&gt;
+
+&lt;p&gt;But we’ll still need to figure out the process for determining how to solve the problem. Surely, we don’t just multiply all digits available to us. That would yield &lt;code&gt;10! = 3 628 800&lt;/code&gt;. I imagine it will somehow involve multiplying the largest numbers together while accounting for divisors they have in common. &lt;/p&gt;
+
+&lt;p&gt;Sometimes, throwing shit at a wall and seeing what sticks is the best way toward finding a solution. That’s what I began doing, by simply multiplying the larger numbers together:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;10 = 10
+10 x 9 = 90
+10 x 9 x 8 = 720
+10 x 9 x 8 x 7 = 5040&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Ah, we just leapfrogged our initial number by a factor of 2 (&lt;code&gt;5040 / 2 = 2520&lt;/code&gt;). &lt;/p&gt;
+
+&lt;p&gt;What about primes!? They’ve got to be worth something. Let’s see: &lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;2520 = 10 x 9 x 8 x 7 / 2
+2520 = 10 x 9 x 7 x 4
+2520 = 7 x 5 x 3 x 3 x 2 x 2 x 2&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;That’s at best unilluminating. What next? &lt;/p&gt;
+
+&lt;p&gt;Maybe starting with small numbers could give us a hint towards the process.&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;Digits 		Number 		Prime multiplication
+1 			1 			1
+2 			2 			1 x 2
+3 			6 			1 x 2 x 3
+4 			12 			1 x 2 x 2 x 3
+5 			60			1 x 2 x 2 x 3 x 5
+6 			60 			1 x 2 x 2 x 3 x 5
+7 			420 		1 x 2 x 2 x 3 x 5 x 7
+8 			840 		1 x 2 x 2 x 2 x 3 x 5 x 7
+9 			2520 		1 x 2 x 2 x 2 x 3 x 3 x 5 x 7
+10 			2520 		1 x 2 x 2 x 2 x 3 x 3 x 5 x 7&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;So we see some patterns start to emerge. &lt;/p&gt;
+
+&lt;p&gt;Whenever we add a prime, we simply multiply the number before it in the sequence. &lt;/p&gt;
+
+&lt;p&gt;For non-primes, if its prime factors are already present in the number before it in the sequence, then we don’t do anything to the sequence. If its prime factors aren’t there, we multiply the number by whatever prime is required. This is evident in the transition from &lt;code&gt;7&lt;/code&gt; to &lt;code&gt;8&lt;/code&gt;, where we need to add in a third &lt;code&gt;2&lt;/code&gt; in the prime multiplication chain. &lt;/p&gt;
+
+&lt;p&gt;Great. Now we have our methodology. Now let’s write some code. &lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-python&quot; data-lang=&quot;python&quot;&gt;&lt;span class=&quot;lineno&quot;&gt; 1&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;findSmallestMultiple&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;numDigits&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 2&lt;/span&gt;     
+&lt;span class=&quot;lineno&quot;&gt; 3&lt;/span&gt;     &lt;span class=&quot;n&quot;&gt;sm&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 4&lt;/span&gt;     
+&lt;span class=&quot;lineno&quot;&gt; 5&lt;/span&gt;     &lt;span class=&quot;c&quot;&gt;# use recursion to get smallest multiple of digits before current digit&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 6&lt;/span&gt;     &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;numDigits&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 7&lt;/span&gt;         &lt;span class=&quot;n&quot;&gt;sm&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;findSmallestMultiple&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;numDigits&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 8&lt;/span&gt;             
+&lt;span class=&quot;lineno&quot;&gt; 9&lt;/span&gt;     &lt;span class=&quot;c&quot;&gt;# check if we can&amp;#39;t just divide anyway&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;10&lt;/span&gt;     &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sm&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;numDigits&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;11&lt;/span&gt; 
+&lt;span class=&quot;lineno&quot;&gt;12&lt;/span&gt;         &lt;span class=&quot;c&quot;&gt;# get prime factors of two numbers to compare&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;13&lt;/span&gt;         &lt;span class=&quot;n&quot;&gt;spf&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;primeFactors&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sm&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;14&lt;/span&gt;         &lt;span class=&quot;n&quot;&gt;npf&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;primeFactors&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;numDigits&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;15&lt;/span&gt; 
+&lt;span class=&quot;lineno&quot;&gt;16&lt;/span&gt;         &lt;span class=&quot;c&quot;&gt;# check whether current sm value contains all prime factors that numDigits has&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;17&lt;/span&gt;         &lt;span class=&quot;c&quot;&gt;# otherwise, multiply sm by that factor&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;18&lt;/span&gt;         &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;set&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;npf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;19&lt;/span&gt;             &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;npf&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;count&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;spf&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;count&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;20&lt;/span&gt;                 &lt;span class=&quot;n&quot;&gt;sm&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;21&lt;/span&gt; 
+&lt;span class=&quot;lineno&quot;&gt;22&lt;/span&gt;     &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sm&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;This works marvelously, and is a great example of how to use recursion to accomplish pretty neat stuff. &lt;/p&gt;
+
+&lt;p&gt;The &lt;code&gt;primeFactors(n)&lt;/code&gt; function returns a list of the prime factors of its input. &lt;/p&gt;
+
+&lt;p&gt;Anyway, here’s numbers 1-20, as computed by my little function below:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;1 : 1 = [1]
+2 : 2 = [1, 2]
+3 : 6 = [1, 2, 3]
+4 : 12 = [1, 2, 2, 3]
+5 : 60 = [1, 2, 2, 3, 5]
+6 : 60 = [1, 2, 2, 3, 5]
+7 : 420 = [1, 2, 2, 3, 5, 7]
+8 : 840 = [1, 2, 2, 2, 3, 5, 7]
+9 : 2520 = [1, 2, 2, 2, 3, 3, 5, 7]
+10 : 2520 = [1, 2, 2, 2, 3, 3, 5, 7]
+11 : 27720 = [1, 2, 2, 2, 3, 3, 5, 7, 11]
+12 : 27720 = [1, 2, 2, 2, 3, 3, 5, 7, 11]
+13 : 360360 = [1, 2, 2, 2, 3, 3, 5, 7, 11, 13]
+14 : 360360 = [1, 2, 2, 2, 3, 3, 5, 7, 11, 13]
+15 : 360360 = [1, 2, 2, 2, 3, 3, 5, 7, 11, 13]
+16 : 720720 = [1, 2, 2, 2, 2, 3, 3, 5, 7, 11, 13]
+17 : 12252240 = [1, 2, 2, 2, 2, 3, 3, 5, 7, 11, 13, 17]
+18 : 12252240 = [1, 2, 2, 2, 2, 3, 3, 5, 7, 11, 13, 17]
+19 : 232792560 = [1, 2, 2, 2, 2, 3, 3, 5, 7, 11, 13, 17, 19]
+20 : 232792560 = [1, 2, 2, 2, 2, 3, 3, 5, 7, 11, 13, 17, 19]&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+</description>
+        <pubDate>Fri, 29 Aug 2014 00:00:00 -0400</pubDate>
+        <link>ryantuck.github.io/2014/08/29/euler5/</link>
+        <guid isPermaLink="true">ryantuck.github.io/2014/08/29/euler5/</guid>
+        
+        <category>euler</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>Project Euler 4 - Largest Palindrome</title>
+        <description>&lt;p&gt;&lt;a href=&quot;http://projecteuler.net/problem=4&quot;&gt;Problem 4&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;We need to calculate the largest palindrome made from 3 digit numbers. I’ve written a function that does it for any amount of digits, although it’s currently pretty inefficient. &lt;/p&gt;
+
+&lt;p&gt;The brute force strategy simply takes every possible product of all &lt;em&gt;x&lt;/em&gt;-digit numbers, compares whether the result is a palindrome, and whether it is the largest palindrome yet found.&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-python&quot; data-lang=&quot;python&quot;&gt;&lt;span class=&quot;lineno&quot;&gt; 1&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;largestPalindromeMadeFromXDigitNumbers&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 2&lt;/span&gt;     
+&lt;span class=&quot;lineno&quot;&gt; 3&lt;/span&gt;     &lt;span class=&quot;c&quot;&gt;# define bounds&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 4&lt;/span&gt;     &lt;span class=&quot;n&quot;&gt;upperLimit&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;pow&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 5&lt;/span&gt;     &lt;span class=&quot;n&quot;&gt;lowerLimit&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;pow&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 6&lt;/span&gt;     
+&lt;span class=&quot;lineno&quot;&gt; 7&lt;/span&gt;     &lt;span class=&quot;n&quot;&gt;biggestPalindrome&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 8&lt;/span&gt;     &lt;span class=&quot;n&quot;&gt;component1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 9&lt;/span&gt;     &lt;span class=&quot;n&quot;&gt;component2&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;10&lt;/span&gt;     
+&lt;span class=&quot;lineno&quot;&gt;11&lt;/span&gt;     &lt;span class=&quot;n&quot;&gt;calculations&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;12&lt;/span&gt;     
+&lt;span class=&quot;lineno&quot;&gt;13&lt;/span&gt;     &lt;span class=&quot;c&quot;&gt;# compute all products of x digit numbers&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;14&lt;/span&gt;     &lt;span class=&quot;c&quot;&gt;# test each for palindromicity&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;15&lt;/span&gt;     &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;range&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;upperLimit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;lowerLimit&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;16&lt;/span&gt;         &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;b&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;range&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;upperLimit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;lowerLimit&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;17&lt;/span&gt;             
+&lt;span class=&quot;lineno&quot;&gt;18&lt;/span&gt;             &lt;span class=&quot;n&quot;&gt;calculations&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;19&lt;/span&gt; 
+&lt;span class=&quot;lineno&quot;&gt;20&lt;/span&gt;             &lt;span class=&quot;n&quot;&gt;prod&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;b&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;21&lt;/span&gt;             
+&lt;span class=&quot;lineno&quot;&gt;22&lt;/span&gt;             &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;isPalindrome&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;prod&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;23&lt;/span&gt;                 &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;prod&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;biggestPalindrome&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;24&lt;/span&gt;                     
+&lt;span class=&quot;lineno&quot;&gt;25&lt;/span&gt;                     &lt;span class=&quot;n&quot;&gt;biggestPalindrome&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;prod&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;26&lt;/span&gt;                     &lt;span class=&quot;n&quot;&gt;component1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;27&lt;/span&gt;                     &lt;span class=&quot;n&quot;&gt;component2&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;b&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;28&lt;/span&gt;     
+&lt;span class=&quot;lineno&quot;&gt;29&lt;/span&gt;     &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;biggestPalindrome&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;30&lt;/span&gt;     &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;component1&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;31&lt;/span&gt;     &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;component2&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;And here’s our result for 3-digit numbers:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-python&quot; data-lang=&quot;python&quot;&gt;&lt;span class=&quot;mi&quot;&gt;993&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;913&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;906609&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;This is an ugly, wasteful, an inefficient algorithm that took a couple of seconds to compute. Turns out it goes through 810k calculations. I suppose it’s unfair to criticize my little computer because it certainly multiplies faster than I can, but we can help save it some work, especially if we’re going to feed it 4-digit numbers and beyond. &lt;/p&gt;
+
+&lt;p&gt;Now that my interest is peaked, I need to find a more elegant solution. &lt;/p&gt;
+
+&lt;p&gt;First off - I’m already running the loop from highest numbers to lowest numbers. There should be a point at which I can definitively know that no more computations will be necessary. &lt;/p&gt;
+
+&lt;p&gt;Part of the problem is solving for the two components that comprise the palindrome. In the double for-loop, &lt;code&gt;a&lt;/code&gt; starts, for our purposes, at 999, while &lt;code&gt;b&lt;/code&gt; runs through all numbers between 999 and 100. Is it true that the very first palindrome we find will be the largest palindrome?&lt;/p&gt;
+
+&lt;p&gt;That was my intuitive guess, but it’s wrong. For 3 digit numbers, the first palindrome found using this methodology is actually &lt;code&gt;995 x 583 = 580085&lt;/code&gt;. It turns out the second palindrome found is our solution, &lt;code&gt;993 x 913 = 906609&lt;/code&gt;. &lt;/p&gt;
+
+&lt;p&gt;One thing we can prevent is the algo running repeat calculations - if we’ve already calculated &lt;code&gt;999 x 998&lt;/code&gt;, we don’t need to compute &lt;code&gt;998 x 999&lt;/code&gt;. Thus, the upper limit of &lt;code&gt;b&lt;/code&gt; should always be equal to &lt;code&gt;a&lt;/code&gt;:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-python&quot; data-lang=&quot;python&quot;&gt;&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;range&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;upperLimit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;lowerLimit&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;b&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;range&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;lowerLimit&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;This little trick brings our total number of calculations from &lt;code&gt;810000&lt;/code&gt; down to &lt;code&gt;405450&lt;/code&gt;, about &lt;code&gt;50%&lt;/code&gt; of the calculations we made earlier! A good start, but we can do better.&lt;/p&gt;
+
+&lt;p&gt;The first palindrome is &lt;code&gt;995 x 583 = 580085&lt;/code&gt;. We can be absolutely certain that &lt;code&gt;a&lt;/code&gt;, can never be lower than &lt;code&gt;583&lt;/code&gt;. So it’d be helpful to increase the lower limit on the loops to account for this. &lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-python&quot; data-lang=&quot;python&quot;&gt;&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;isPalindrome&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;prod&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+	&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;prod&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;biggestPalindrome&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+                    
+		&lt;span class=&quot;n&quot;&gt;biggestPalindrome&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;prod&lt;/span&gt;
+		&lt;span class=&quot;n&quot;&gt;component1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;
+		&lt;span class=&quot;n&quot;&gt;component2&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;b&lt;/span&gt;
+		&lt;span class=&quot;n&quot;&gt;lowerLimit&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;b&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;And wow! Our total calculations plummets from &lt;code&gt;450k&lt;/code&gt; down to &lt;code&gt;8553&lt;/code&gt;, down to about &lt;code&gt;1%&lt;/code&gt; of our original algorithm. This gives us a much more acceptable time scale for running this algo. Sweet!&lt;/p&gt;
+
+&lt;p&gt;Currently, a 3-digit calculation runs in the blink of an eye and 4-digits runs very quickly as well.&lt;/p&gt;
+
+&lt;p&gt;Now, is there something in the nature of palindromic numbers that would help us cut down even further? I’d like to shed this algorithm even further, because now our new White Whale is 5-digit numbers. &lt;/p&gt;
+
+&lt;p&gt;Being a badly-designed machine myself, I might look to patterns to find correlation, and then interpret that as causation. &lt;/p&gt;
+
+&lt;p&gt;So let’s look at results for all digit counts:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;digits 	a 	x	b 	=	result 				calcuations
+1 		9 		1 		9 					45
+2 		99 		91 		9009 				126
+3 		993 	913 	906609 				8553
+4 		9999 	9901 	99000099 			13851
+5 		99979	99681	996600006699		1095563&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;If our goal is to reduce total time spent, we should consider what parts of the algorithm are the ones taking up time. My initial guess is that the &lt;code&gt;isPalindrome(x)&lt;/code&gt; function takes more computing power than simply finding the product &lt;code&gt;a*b&lt;/code&gt;. &lt;/p&gt;
+
+&lt;p&gt;We also know that there’s no need to test a number for palindromicity if it is less than the largest palindrome we’ve already found. Consequently, I can switch the order of the conditional statements in my loop accordingly:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-python&quot; data-lang=&quot;python&quot;&gt;&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;prod&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;biggestPalindrome&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+	&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;isPalindrome&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;prod&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+
+		&lt;span class=&quot;n&quot;&gt;biggestPalindrome&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;prod&lt;/span&gt;
+		&lt;span class=&quot;n&quot;&gt;component1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;
+		&lt;span class=&quot;n&quot;&gt;component2&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;b&lt;/span&gt;
+		&lt;span class=&quot;n&quot;&gt;lowerLimit&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;b&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;When testing whether the number was a palindrome first, the elapsed time of the algorithm as stands for 4-digit numbers is about &lt;code&gt;0.23s&lt;/code&gt;. For 5-digit numbers, however, we’re on the order of about &lt;code&gt;15s&lt;/code&gt;. &lt;/p&gt;
+
+&lt;p&gt;After switching, the 4-digit algorithm runs in about &lt;code&gt;0.06s&lt;/code&gt;, while the 5-digit algorithm runs in &lt;code&gt;14s&lt;/code&gt;. &lt;/p&gt;
+
+&lt;p&gt;It seems safe to say that this switch did help, but is overwhelmed once we arrive at larger orders of magnitude. &lt;/p&gt;
+
+&lt;p&gt;A brief look at palindrome digit distributions indicates there may be some patterns that will lend themselves to more efficient/effective processing. I owe you a part 2. &lt;/p&gt;
+
+</description>
+        <pubDate>Mon, 25 Aug 2014 00:00:00 -0400</pubDate>
+        <link>ryantuck.github.io/2014/08/25/euler4/</link>
+        <guid isPermaLink="true">ryantuck.github.io/2014/08/25/euler4/</guid>
+        
+        <category>euler</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>Project Euler 3 - Largest Prime Factor</title>
+        <description>&lt;p&gt;&lt;a href=&quot;http://projecteuler.net/problem=3&quot;&gt;Problem 3&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;We’ve got to find the largest prime factor of a certain number. &lt;/p&gt;
+
+&lt;p&gt;This algorithm involves finding the smallest prime factor, dividing the test number by that factor, and continuing on until we’re left with a prime. &lt;/p&gt;
+
+&lt;p&gt;The &lt;code&gt;printLPFCalcs(number)&lt;/code&gt; function just makes the printing pretty, as you’ll see below. &lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-python&quot; data-lang=&quot;python&quot;&gt;&lt;span class=&quot;lineno&quot;&gt; 1&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;isPrime&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;number&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;	&lt;span class=&quot;c&quot;&gt;# determines whether input is prime&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 2&lt;/span&gt; 		
+&lt;span class=&quot;lineno&quot;&gt; 3&lt;/span&gt; 		&lt;span class=&quot;c&quot;&gt;# set to true initially and try to disprove&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 4&lt;/span&gt; 		&lt;span class=&quot;n&quot;&gt;prime&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;True&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 5&lt;/span&gt; 		
+&lt;span class=&quot;lineno&quot;&gt; 6&lt;/span&gt; 		&lt;span class=&quot;c&quot;&gt;# checks if divisible by anything but 1 or itself &lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 7&lt;/span&gt; 		&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;range&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;number&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt; 	
+&lt;span class=&quot;lineno&quot;&gt; 8&lt;/span&gt; 			&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;number&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 9&lt;/span&gt; 				&lt;span class=&quot;n&quot;&gt;prime&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;False&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;10&lt;/span&gt; 		
+&lt;span class=&quot;lineno&quot;&gt;11&lt;/span&gt; 		&lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;prime&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;12&lt;/span&gt; 		
+&lt;span class=&quot;lineno&quot;&gt;13&lt;/span&gt; 	&lt;span class=&quot;c&quot;&gt;# returns the largest prime factor and prints out steps to find LPF&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;14&lt;/span&gt; 	&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;largestPrimeFactor&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;bigNumber&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;	
+&lt;span class=&quot;lineno&quot;&gt;15&lt;/span&gt; 		
+&lt;span class=&quot;lineno&quot;&gt;16&lt;/span&gt; 		&lt;span class=&quot;c&quot;&gt;# set initial variables&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;17&lt;/span&gt; 		&lt;span class=&quot;n&quot;&gt;largestPrime&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;18&lt;/span&gt; 		&lt;span class=&quot;n&quot;&gt;testNumber&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;19&lt;/span&gt; 		
+&lt;span class=&quot;lineno&quot;&gt;20&lt;/span&gt; 		&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;bigNumber&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;		&lt;span class=&quot;c&quot;&gt;# don&amp;#39;t need to run if it&amp;#39;s = 1&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;21&lt;/span&gt; 			&lt;span class=&quot;n&quot;&gt;primeFound&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;False&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;22&lt;/span&gt; 			
+&lt;span class=&quot;lineno&quot;&gt;23&lt;/span&gt; 			&lt;span class=&quot;k&quot;&gt;while&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;not&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;primeFound&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;					&lt;span class=&quot;c&quot;&gt;# run a loop until we find a prime&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;24&lt;/span&gt; 				&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;bigNumber&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;testNumber&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;	&lt;span class=&quot;c&quot;&gt;# test for divisibility&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;25&lt;/span&gt; 					&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;isPrime&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;testNumber&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;		&lt;span class=&quot;c&quot;&gt;# then for prime-ness&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;26&lt;/span&gt; 					
+&lt;span class=&quot;lineno&quot;&gt;27&lt;/span&gt; 						&lt;span class=&quot;n&quot;&gt;primeFound&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;True&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;28&lt;/span&gt; 						&lt;span class=&quot;n&quot;&gt;largestPrime&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;testNumber&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;29&lt;/span&gt; 						
+&lt;span class=&quot;lineno&quot;&gt;30&lt;/span&gt; 						&lt;span class=&quot;c&quot;&gt;# print math to show how number gets whittled down&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;31&lt;/span&gt; 						&lt;span class=&quot;k&quot;&gt;print&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;bigNumber&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;/&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;testNumber&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;=&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;bigNumber&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;testNumber&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;32&lt;/span&gt; 						
+&lt;span class=&quot;lineno&quot;&gt;33&lt;/span&gt; 						&lt;span class=&quot;c&quot;&gt;# divide our argument by the prime we just found&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;34&lt;/span&gt; 						&lt;span class=&quot;n&quot;&gt;bigNumber&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;bigNumber&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;testNumber&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;35&lt;/span&gt; 						
+&lt;span class=&quot;lineno&quot;&gt;36&lt;/span&gt; 						&lt;span class=&quot;c&quot;&gt;# recursively find the next prime number (if argument isn&amp;#39;t 1)&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;37&lt;/span&gt; 						&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;bigNumber&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;38&lt;/span&gt; 							&lt;span class=&quot;n&quot;&gt;largestPrime&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;largestPrimeFactor&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;bigNumber&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;39&lt;/span&gt; 				
+&lt;span class=&quot;lineno&quot;&gt;40&lt;/span&gt; 				&lt;span class=&quot;c&quot;&gt;# iterate testNumber for next loop go-around&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;41&lt;/span&gt; 				&lt;span class=&quot;n&quot;&gt;testNumber&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;testNumber&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;		
+&lt;span class=&quot;lineno&quot;&gt;42&lt;/span&gt; 				
+&lt;span class=&quot;lineno&quot;&gt;43&lt;/span&gt; 		&lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;largestPrime&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;44&lt;/span&gt; 
+&lt;span class=&quot;lineno&quot;&gt;45&lt;/span&gt; 	&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;printLPFCalcs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;number&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;46&lt;/span&gt; 		&lt;span class=&quot;k&quot;&gt;print&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;-------------------&amp;quot;&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;47&lt;/span&gt; 		&lt;span class=&quot;k&quot;&gt;print&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;number&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;48&lt;/span&gt; 		&lt;span class=&quot;k&quot;&gt;print&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;-------------------&amp;quot;&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;49&lt;/span&gt; 		&lt;span class=&quot;k&quot;&gt;print&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;largestPrimeFactor&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;number&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;50&lt;/span&gt; 		&lt;span class=&quot;k&quot;&gt;print&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;51&lt;/span&gt; 
+&lt;span class=&quot;lineno&quot;&gt;52&lt;/span&gt; 
+&lt;span class=&quot;lineno&quot;&gt;53&lt;/span&gt; 
+&lt;span class=&quot;lineno&quot;&gt;54&lt;/span&gt; 	&lt;span class=&quot;k&quot;&gt;print&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;Here are some largest-prime-factor calculations&amp;quot;&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;55&lt;/span&gt; 	&lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;56&lt;/span&gt; 	&lt;span class=&quot;n&quot;&gt;printLPFCalcs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;13195&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;57&lt;/span&gt; 	&lt;span class=&quot;n&quot;&gt;printLPFCalcs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;600851475143&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;58&lt;/span&gt; 	&lt;span class=&quot;n&quot;&gt;printLPFCalcs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;7&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;11&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;13&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;17&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;19&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;23&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;29&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;and, of course, our output:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-python&quot; data-lang=&quot;python&quot;&gt;&lt;span class=&quot;n&quot;&gt;Here&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;are&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;some&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;largest&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;prime&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;factor&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;calculations&lt;/span&gt;
+
+	&lt;span class=&quot;o&quot;&gt;-------------------&lt;/span&gt;
+	&lt;span class=&quot;mi&quot;&gt;13195&lt;/span&gt;
+	&lt;span class=&quot;o&quot;&gt;-------------------&lt;/span&gt;
+	&lt;span class=&quot;mi&quot;&gt;13195&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;/&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2639&lt;/span&gt;
+	&lt;span class=&quot;mi&quot;&gt;2639&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;/&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;7&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;377&lt;/span&gt;
+	&lt;span class=&quot;mi&quot;&gt;377&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;/&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;13&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;29&lt;/span&gt;
+	&lt;span class=&quot;mi&quot;&gt;29&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;/&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;29&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
+	&lt;span class=&quot;mi&quot;&gt;29&lt;/span&gt;
+
+	&lt;span class=&quot;o&quot;&gt;-------------------&lt;/span&gt;
+	&lt;span class=&quot;mi&quot;&gt;600851475143&lt;/span&gt;
+	&lt;span class=&quot;o&quot;&gt;-------------------&lt;/span&gt;
+	&lt;span class=&quot;mi&quot;&gt;600851475143&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;/&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;71&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;8462696833&lt;/span&gt;
+	&lt;span class=&quot;mi&quot;&gt;8462696833&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;/&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;839&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;10086647&lt;/span&gt;
+	&lt;span class=&quot;mi&quot;&gt;10086647&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;/&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1471&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;6857&lt;/span&gt;
+	&lt;span class=&quot;mi&quot;&gt;6857&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;/&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;6857&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
+	&lt;span class=&quot;mi&quot;&gt;6857&lt;/span&gt;
+
+	&lt;span class=&quot;o&quot;&gt;-------------------&lt;/span&gt;
+	&lt;span class=&quot;mi&quot;&gt;6469693230&lt;/span&gt;
+	&lt;span class=&quot;o&quot;&gt;-------------------&lt;/span&gt;
+	&lt;span class=&quot;mi&quot;&gt;6469693230&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;/&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3234846615&lt;/span&gt;
+	&lt;span class=&quot;mi&quot;&gt;3234846615&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;/&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1078282205&lt;/span&gt;
+	&lt;span class=&quot;mi&quot;&gt;1078282205&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;/&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;215656441&lt;/span&gt;
+	&lt;span class=&quot;mi&quot;&gt;215656441&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;/&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;7&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;30808063&lt;/span&gt;
+	&lt;span class=&quot;mi&quot;&gt;30808063&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;/&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;11&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2800733&lt;/span&gt;
+	&lt;span class=&quot;mi&quot;&gt;2800733&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;/&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;13&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;215441&lt;/span&gt;
+	&lt;span class=&quot;mi&quot;&gt;215441&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;/&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;17&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;12673&lt;/span&gt;
+	&lt;span class=&quot;mi&quot;&gt;12673&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;/&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;19&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;667&lt;/span&gt;
+	&lt;span class=&quot;mi&quot;&gt;667&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;/&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;23&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;29&lt;/span&gt;
+	&lt;span class=&quot;mi&quot;&gt;29&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;/&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;29&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
+	&lt;span class=&quot;mi&quot;&gt;29&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;I really love watching the numbers whittle themselves down. The last example proves that the algo will spit our input back out to us. &lt;/p&gt;
+
+</description>
+        <pubDate>Fri, 22 Aug 2014 00:00:00 -0400</pubDate>
+        <link>ryantuck.github.io/2014/08/22/euler3/</link>
+        <guid isPermaLink="true">ryantuck.github.io/2014/08/22/euler3/</guid>
+        
+        <category>euler</category>
+        
+        
+      </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Project Euler 4 - Largest Palindrome</title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="description" content="A rad site for a rad dude">
+    <link rel="canonical" href="ryantuck.github.io/2014/08/25/euler4/">
+    <link rel="shortcut icon" href="/img/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/img/favicon.ico" type="image/x-icon">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/rtio.css">
+    <link rel="stylesheet" href="/css/simplegrid.css">
+    <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
+</head>
+
+
+    <body>
+
+    <header class="site-header">
+  <div class="wrap">
+    <a class="site-title" href="/">Ryan Tuck</a>
+    <nav class="site-nav">
+      <div class="trigger">
+        <a class="page-link" href="/resume">resume</a>
+        <a class="page-link" href="/thoughts">thoughts</a>
+        <a class="page-link" href="/about">about</a>
+        <a class="page-link" href="/ideas">ideas</a>
+        <a class="page-link" href="/about-site">site</a>
+      </div>
+    </nav>
+  </div>
+</header>
+
+
+    <div class="page-content">
+      <div class="wrap">
+      <div class="post">
+
+  <header class="post-header">
+    <h1>Project Euler 4 - Largest Palindrome</h1>
+    <p class="meta">Aug 25, 2014</p>
+  </header>
+
+  <article class="post-content">
+  <p><a href="http://projecteuler.net/problem=4">Problem 4</a></p>
+
+<p>We need to calculate the largest palindrome made from 3 digit numbers. I’ve written a function that does it for any amount of digits, although it’s currently pretty inefficient. </p>
+
+<p>The brute force strategy simply takes every possible product of all <em>x</em>-digit numbers, compares whether the result is a palindrome, and whether it is the largest palindrome yet found.</p>
+
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="lineno"> 1</span> <span class="k">def</span> <span class="nf">largestPalindromeMadeFromXDigitNumbers</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<span class="lineno"> 2</span>     
+<span class="lineno"> 3</span>     <span class="c"># define bounds</span>
+<span class="lineno"> 4</span>     <span class="n">upperLimit</span> <span class="o">=</span> <span class="nb">pow</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="n">x</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+<span class="lineno"> 5</span>     <span class="n">lowerLimit</span> <span class="o">=</span> <span class="nb">pow</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="n">x</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+<span class="lineno"> 6</span>     
+<span class="lineno"> 7</span>     <span class="n">biggestPalindrome</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="lineno"> 8</span>     <span class="n">component1</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="lineno"> 9</span>     <span class="n">component2</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="lineno">10</span>     
+<span class="lineno">11</span>     <span class="n">calculations</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="lineno">12</span>     
+<span class="lineno">13</span>     <span class="c"># compute all products of x digit numbers</span>
+<span class="lineno">14</span>     <span class="c"># test each for palindromicity</span>
+<span class="lineno">15</span>     <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">upperLimit</span><span class="p">,</span><span class="n">lowerLimit</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+<span class="lineno">16</span>         <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">upperLimit</span><span class="p">,</span><span class="n">lowerLimit</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+<span class="lineno">17</span>             
+<span class="lineno">18</span>             <span class="n">calculations</span> <span class="o">+=</span> <span class="mi">1</span>
+<span class="lineno">19</span> 
+<span class="lineno">20</span>             <span class="n">prod</span> <span class="o">=</span> <span class="n">a</span><span class="o">*</span><span class="n">b</span>
+<span class="lineno">21</span>             
+<span class="lineno">22</span>             <span class="k">if</span> <span class="n">isPalindrome</span><span class="p">(</span><span class="n">prod</span><span class="p">):</span>
+<span class="lineno">23</span>                 <span class="k">if</span> <span class="n">prod</span> <span class="o">&gt;</span> <span class="n">biggestPalindrome</span><span class="p">:</span>
+<span class="lineno">24</span>                     
+<span class="lineno">25</span>                     <span class="n">biggestPalindrome</span> <span class="o">=</span> <span class="n">prod</span>
+<span class="lineno">26</span>                     <span class="n">component1</span> <span class="o">=</span> <span class="n">a</span>
+<span class="lineno">27</span>                     <span class="n">component2</span> <span class="o">=</span> <span class="n">b</span>
+<span class="lineno">28</span>     
+<span class="lineno">29</span>     <span class="k">print</span> <span class="n">biggestPalindrome</span>
+<span class="lineno">30</span>     <span class="k">print</span> <span class="n">component1</span>
+<span class="lineno">31</span>     <span class="k">print</span> <span class="n">component2</span></code></pre></div>
+
+<p>And here’s our result for 3-digit numbers:</p>
+
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="mi">993</span> <span class="n">x</span> <span class="mi">913</span> <span class="o">=</span> <span class="mi">906609</span></code></pre></div>
+
+<p>This is an ugly, wasteful, an inefficient algorithm that took a couple of seconds to compute. Turns out it goes through 810k calculations. I suppose it’s unfair to criticize my little computer because it certainly multiplies faster than I can, but we can help save it some work, especially if we’re going to feed it 4-digit numbers and beyond. </p>
+
+<p>Now that my interest is peaked, I need to find a more elegant solution. </p>
+
+<p>First off - I’m already running the loop from highest numbers to lowest numbers. There should be a point at which I can definitively know that no more computations will be necessary. </p>
+
+<p>Part of the problem is solving for the two components that comprise the palindrome. In the double for-loop, <code>a</code> starts, for our purposes, at 999, while <code>b</code> runs through all numbers between 999 and 100. Is it true that the very first palindrome we find will be the largest palindrome?</p>
+
+<p>That was my intuitive guess, but it’s wrong. For 3 digit numbers, the first palindrome found using this methodology is actually <code>995 x 583 = 580085</code>. It turns out the second palindrome found is our solution, <code>993 x 913 = 906609</code>. </p>
+
+<p>One thing we can prevent is the algo running repeat calculations - if we’ve already calculated <code>999 x 998</code>, we don’t need to compute <code>998 x 999</code>. Thus, the upper limit of <code>b</code> should always be equal to <code>a</code>:</p>
+
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">upperLimit</span><span class="p">,</span><span class="n">lowerLimit</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">lowerLimit</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span></code></pre></div>
+
+<p>This little trick brings our total number of calculations from <code>810000</code> down to <code>405450</code>, about <code>50%</code> of the calculations we made earlier! A good start, but we can do better.</p>
+
+<p>The first palindrome is <code>995 x 583 = 580085</code>. We can be absolutely certain that <code>a</code>, can never be lower than <code>583</code>. So it’d be helpful to increase the lower limit on the loops to account for this. </p>
+
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">if</span> <span class="n">isPalindrome</span><span class="p">(</span><span class="n">prod</span><span class="p">):</span>
+	<span class="k">if</span> <span class="n">prod</span> <span class="o">&gt;</span> <span class="n">biggestPalindrome</span><span class="p">:</span>
+                    
+		<span class="n">biggestPalindrome</span> <span class="o">=</span> <span class="n">prod</span>
+		<span class="n">component1</span> <span class="o">=</span> <span class="n">a</span>
+		<span class="n">component2</span> <span class="o">=</span> <span class="n">b</span>
+		<span class="n">lowerLimit</span> <span class="o">=</span> <span class="n">b</span></code></pre></div>
+
+<p>And wow! Our total calculations plummets from <code>450k</code> down to <code>8553</code>, down to about <code>1%</code> of our original algorithm. This gives us a much more acceptable time scale for running this algo. Sweet!</p>
+
+<p>Currently, a 3-digit calculation runs in the blink of an eye and 4-digits runs very quickly as well.</p>
+
+<p>Now, is there something in the nature of palindromic numbers that would help us cut down even further? I’d like to shed this algorithm even further, because now our new White Whale is 5-digit numbers. </p>
+
+<p>Being a badly-designed machine myself, I might look to patterns to find correlation, and then interpret that as causation. </p>
+
+<p>So let’s look at results for all digit counts:</p>
+
+<div class="highlight"><pre><code class="language-text" data-lang="text">digits 	a 	x	b 	=	result 				calcuations
+1 		9 		1 		9 					45
+2 		99 		91 		9009 				126
+3 		993 	913 	906609 				8553
+4 		9999 	9901 	99000099 			13851
+5 		99979	99681	996600006699		1095563</code></pre></div>
+
+<p>If our goal is to reduce total time spent, we should consider what parts of the algorithm are the ones taking up time. My initial guess is that the <code>isPalindrome(x)</code> function takes more computing power than simply finding the product <code>a*b</code>. </p>
+
+<p>We also know that there’s no need to test a number for palindromicity if it is less than the largest palindrome we’ve already found. Consequently, I can switch the order of the conditional statements in my loop accordingly:</p>
+
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">if</span> <span class="n">prod</span> <span class="o">&gt;</span> <span class="n">biggestPalindrome</span><span class="p">:</span>
+	<span class="k">if</span> <span class="n">isPalindrome</span><span class="p">(</span><span class="n">prod</span><span class="p">):</span>
+
+		<span class="n">biggestPalindrome</span> <span class="o">=</span> <span class="n">prod</span>
+		<span class="n">component1</span> <span class="o">=</span> <span class="n">a</span>
+		<span class="n">component2</span> <span class="o">=</span> <span class="n">b</span>
+		<span class="n">lowerLimit</span> <span class="o">=</span> <span class="n">b</span></code></pre></div>
+
+<p>When testing whether the number was a palindrome first, the elapsed time of the algorithm as stands for 4-digit numbers is about <code>0.23s</code>. For 5-digit numbers, however, we’re on the order of about <code>15s</code>. </p>
+
+<p>After switching, the 4-digit algorithm runs in about <code>0.06s</code>, while the 5-digit algorithm runs in <code>14s</code>. </p>
+
+<p>It seems safe to say that this switch did help, but is overwhelmed once we arrive at larger orders of magnitude. </p>
+
+<p>A brief look at palindrome digit distributions indicates there may be some patterns that will lend themselves to more efficient/effective processing. I owe you a part 2. </p>
+
+
+  </article>
+
+</div>
+      </div>
+    </div>
+
+    <footer class="site-footer">
+  <div class="wrap">
+    <div style="text-align:center">
+      <ul>
+          <li>
+            <a class="ficon" href="http://github.com/ryantuck" target="_blank"><i class="fa fa-github"></i></a> 
+            <a class="ficon" href="http://stackoverflow.com/users/1700270/ryan-tuck" target="_blank"><i class="fa fa-stack-overflow"></i></a> 
+            <a class="ficon" href="https://trello.com/b/HGYr5Pcg/rtio" target="_blank"><i class="fa fa-trello"></i></a>
+            <a class="ficon" href="https://www.linkedin.com/pub/ryan-tuck/84/4b6/454" target="_blank"><i class="fa fa-linkedin-square"></i></a>  
+            <a class="ficon" href="http://instagram.com/ryntck" target="_blank"><i class="fa fa-instagram"></i></a> 
+            <a class="ficon" href="https://twitter.com/ryntck" target="_blank"><i class="fa fa-twitter"></i></a> 
+            <a class="ficon" href="mailto:ryan@ryantuck.io"><i class="fa fa-envelope-o"></i></a>
+          </li>
+        </ul>
+        <p>ryan tuck | 2014 | nyc</p>
+    </div>
+  </div>
+</footer>
+
+
+
+
+
+
+    <script src="/js/jquery-2.1.1.min.js"></script>
+    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <script src="/js/rtio.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script>
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+	ga('create', 'UA-53913849-1', 'auto');
+	ga('send', 'pageview');
+
+</script>
+
+    </body>
+</html>

@@ -1,0 +1,107 @@
+@import url(http://fonts.googleapis.com/css?family=Source+Code+Pro:200,300,400,500,600,700);
+@import url(http://fonts.googleapis.com/css?family=Raleway:400,300,200,100);
+#print-resume-container {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 790px;
+  height: 1000px; }
+
+#print-resume-inner-container {
+  padding: 0 10px; }
+
+body {
+  font-family: "Raleway", sans-serif;
+  font-size: 12px;
+  line-height: 1.4;
+  font-weight: 300;
+  color: #000; }
+
+h1 {
+  font-size: 1.6em;
+  font-weight: 300; }
+
+h2 {
+  font-size: 1.5em;
+  font-weight: 300; }
+
+h3 {
+  font-size: 1.17em;
+  font-weight: 300; }
+
+h4 {
+  font-size: 1em;
+  font-weight: 300; }
+
+h5 {
+  font-size: 0.83em;
+  font-weight: 300; }
+
+h6 {
+  font-size: 0.75em;
+  font-weight: 300; }
+
+ul {
+  list-style: none; }
+
+/*.fa {color: #0f2;}*/
+pre {
+  padding: 20px;
+  background-color: #222; }
+
+pre * {
+  background-color: #222; }
+
+/*
+.rt-resume-section
+{
+  padding: 5px 0;
+}
+*/
+hr {
+  border: 1px solid #0000ff; }
+
+.rt-resume-section i {
+  color: #0000ff;
+  padding-top: 5px; }
+
+#lit-resume-section li::before {
+  font-family: 'FontAwesome';
+  content: '\f105';
+  margin: 0 5px 0 -10px;
+  color: #0000ff; }
+
+ul ul {
+  padding-left: 1em; }
+
+img {
+  max-width: 100%; }
+
+.image-box {
+  position: relative;
+  width: 100%; }
+
+#ontop {
+  position: absolute;
+  top: 80px;
+  right: 50px; }
+
+.ficon {
+  font-size: 36px;
+  letter-spacing: 8px; }
+
+#post-list-container li::before {
+  font-family: 'FontAwesome';
+  content: '\f105';
+  margin: 0 5px 0 -15px;
+  color: #0000ff; }
+
+.post li::before {
+  font-family: 'FontAwesome';
+  content: '\f105';
+  color: #0000ff; }
+
+.sub-header {
+  color: #0000ff;
+  line-spacing: 1.0;
+  border-bottom: 1px solid #0000ff; }

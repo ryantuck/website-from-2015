@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>A Cool Experiment on Cooling Coffee</title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="description" content="A rad site for a rad dude">
+    <link rel="canonical" href="ryantuck.github.io/2014/10/09/cooling-experiment/">
+    <link rel="shortcut icon" href="/img/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/img/favicon.ico" type="image/x-icon">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/rtio.css">
+    <link rel="stylesheet" href="/css/simplegrid.css">
+    <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
+</head>
+
+
+    <body>
+
+    <header class="site-header">
+  <div class="wrap">
+    <a class="site-title" href="/">Ryan Tuck</a>
+    <nav class="site-nav">
+      <div class="trigger">
+        <a class="page-link" href="/resume">resume</a>
+        <a class="page-link" href="/thoughts">thoughts</a>
+        <a class="page-link" href="/about">about</a>
+        <a class="page-link" href="/ideas">ideas</a>
+        <a class="page-link" href="/about-site">site</a>
+      </div>
+    </nav>
+  </div>
+</header>
+
+
+    <div class="page-content">
+      <div class="wrap">
+      <div class="post">
+
+  <header class="post-header">
+    <h1>A Cool Experiment on Cooling Coffee</h1>
+    <p class="meta">Oct 9, 2014</p>
+  </header>
+
+  <article class="post-content">
+  <p>I like coffee. Nothing quite like it. </p>
+
+<p>I enjoy making it at home with my <a href="http://aerobie.com/products/aeropress.htm">Aeropress</a>. I used to use a french press, but it was too much god damn work to clean, and I didn’t have a sexy enough burr grinder to get the full effect of perfect coffee. </p>
+
+<p>In my pursuit of good-enough coffee, I’ve read that the optimal brewing temperature for coffee is 195˚ - 205˚ F. However, on Aeropress’s website, they recommend a brew temperature of about 165˚ - 175˚ F, from blind in-house taste tests. I’d like to replicate that. Unfortunately, I have a rudimentary water kettle without a temperature display.</p>
+
+<p>So to brew perfect coffee, am I doomed to standing around holding a thermometer in my kettle until it gets down to temperature? No! Luckily, I studied physics in school, allowing me to solve mundane problems like this. </p>
+
+<h3 id="theory">Theory</h3>
+
+<p>Cracking open my thermodynamics textbook was fun, but didn’t cover the particular problem of an insulated body exposed to an infinite cooling reservoir. So I went to the internet. </p>
+
+<p>Newton’s Law of Cooling basically states that hot bodies will lose heat at a faster rate than cooler bodies. For instance, a cup of coffee at 200˚ F will cool faster than than a cup at 140˚ F at room temperature. This is fairly intuitive. </p>
+
+<p>Mathematically, this looks like: </p>
+
+<script type="math/tex; mode=display">
+\begin{align*}
+
+	\frac{dT}{dt} \propto - \Delta T
+
+\end{align*}
+</script>
+
+<p>So we go ahead and formalize the relationship by adding some proportionality factor <script type="math/tex">k</script>:</p>
+
+<script type="math/tex; mode=display">
+\begin{align*}
+
+	\frac{dT}{dt} = -k\Delta T
+
+\end{align*}
+</script>
+
+<p>Ultimately, we want to get <script type="math/tex"> T(t) </script> for our setup. The derivation is fairly straightforward:</p>
+
+<script type="math/tex; mode=display">
+\begin{align*}
+
+	T - T_a = \Delta T
+
+	\\\\
+
+	\frac{dT}{dt} = \frac{d(\Delta T)}{dt}
+
+	\\\\
+
+	\frac{d(\Delta T)}{dt} = -k\Delta T
+
+	\\\\
+
+	\frac{d(\Delta T)}{\Delta T} = -k dt
+
+	\\\\
+
+	\int \frac{d(\Delta T)}{\Delta T} = - \int k dt
+
+	\\\\
+
+	\left.ln(\Delta T)\right |_0^t = -kt
+
+	\\\\
+
+	ln \left(\frac{\Delta T}{\Delta T_i}\right) = -kt
+
+	\\\\
+
+	\frac{\Delta T}{\Delta T_i} = e^{-kt} 
+
+	\\\\
+
+	\Delta T = \Delta T_i e^{-kt}
+
+	\\\\
+
+	T - T_a = (T_i - T_a) e^{-kt}
+
+	\\\\
+
+	T(t) = T_a + (T_i - T_a) e^ {-kt}
+
+\end{align*}
+</script>
+
+<p>This all checks out. <script type="math/tex"> T(\infty) \to T_a </script>. Cool. </p>
+
+<p>In theory, I only need one measurement to compute <script type="math/tex">k</script>: </p>
+
+<script type="math/tex; mode=display">
+\begin{align*}
+
+	k = - \frac{ln(\frac{T - T_a}{T_i - T_a})}{t}
+
+\end{align*}
+</script>
+
+<p>But that would apply only if I could confirm that <script type="math/tex">k</script> is constant. What other factors might affect how quickly the water cools? I imagine the ratio of surface area to the volume of the water would matter. For instance, if the surface area was zero, and the water was completely contained in a perfect insulator, the temperature would never change. Conversely, if we had a super wide pan to keep the water in, and we had a depth of about 1 mm, I imagine it’d cool a lot faster. </p>
+
+<p>So, I’d like to find <script type="math/tex">k(A,V)</script>. Initially, I’ll just find <script type="math/tex">k(V)</script> for my own kettle, since <script type="math/tex">A</script> remains fixed. </p>
+
+<p>Once we find this relationship, we can then get the ultimate result we want, <script type="math/tex"> t(V) </script> for a desired range of <script type="math/tex"> T </script>. </p>
+
+<h3 id="experiment">Experiment</h3>
+
+<p>I took five samples of the water temperature for a time period of 15 minutes at 2-cup increments in volume from 4 cups to 12 cups.</p>
+
+<p>The measured initial temperature <script type="math/tex">T_i</script> was found to be 95˚ C. The ambient temperature <script type="math/tex">T_a</script> was measured to be 25˚ C (about 68˚ F, as expected). </p>
+
+<p><img src="/img/coffee/temp.pdf" alt="T(V)" /></p>
+
+<h3 id="analysis">Analysis</h3>
+
+<p>As you can see, the graph <script type="math/tex"> T (V) </script> looks almost linear, possibly leveling out as volume increases. We have a very small range of values to work with, not many instances, and consequently want to be careful not to overfit our data. </p>
+
+<p>Using the above relationship, we can calculate <script type="math/tex">k(T)</script> for our five data points:</p>
+
+<p><img src="/img/coffee/k.pdf" alt="k(V)" /></p>
+
+<p>To the eye, it appears like this data is behaving something like a 1/x relationship, or <script type="math/tex"> k \propto 1/V </script>. We have to ask if this makes sense. If the data is linear with a negative slope, eventually <script type="math/tex"> k </script> will go negative. But this doesn’t make any physical sense. If <script type="math/tex"> k </script> goes negative, we might experience runaway temperature increase with a larger volume of water than our largest data point. Intuitively, it seems that <script type="math/tex"> k </script> will approach zero as volume increases (and, consequently, surface area to volume decreases). </p>
+
+<p>I took the time to model this linearly and carry out the rest of the analysis for comparison. Scroll down to see how the results are affected. </p>
+
+<p>I’ll assume <script type="math/tex"> k (V) </script> is a 1/x relationship. Thus, plotting the inverse of <script type="math/tex"> k </script> versus <script type="math/tex"> V </script> should look more like a line:</p>
+
+<p><img src="/img/coffee/invK.pdf" alt="k-1(V)" /></p>
+
+<p>We get a score <script type="math/tex"> R^2 </script> = 0.99 using simple linear regression. The line is described by:</p>
+
+<script type="math/tex; mode=display">
+\begin{align*}
+
+	\frac{1}{k} = 4.4 V + 8.2
+
+\end{align*}
+</script>
+
+<p>Rearranging to get time as a function of temperature and volume:</p>
+
+<script type="math/tex; mode=display">
+\begin{align*}
+
+	t(T,V) = - ln(\frac{T - T_a}{T_i - T_a})\left[ 4.4 V + 8.2 \right]
+
+\end{align*}
+</script>
+
+<p>We can now calculate <script type="math/tex"> t(V) </script> for given temperatures. Aeropress recommends 165˚ - 175˚ F, which corresponds to 75˚ - 80˚ C. So we’ll calculate the range for time based on our upper and lower bounds for temperature. </p>
+
+<p>The relationship <script type="math/tex"> t(V) </script> works out to be linear, and we get the following graph as a result: </p>
+
+<p><img src="/img/coffee/time.pdf" alt="t(V)" /></p>
+
+<p>Man, if that isn’t sexy, I don’t know what is. Remember back when we thought <script type="math/tex"> k(V) </script> was possibly linear? This is what it would pump out for our final graph (granted the equation to produce our data points isn’t the same, and we wouldn’t end up expecting it to be linear):</p>
+
+<p><img src="/img/coffee/timeLinK.pdf" alt="t(V) invK" /></p>
+
+<p>Sweet. </p>
+
+<p>I computed the averages between high and low times and rounded to the nearest 30 seconds. Now I have usable numbers to work with. Cool!</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Volume (C)</th>
+      <th style="text-align: right">time (min)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>2</td>
+      <td style="text-align: right">4:30</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td style="text-align: right">6:00</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td style="text-align: right">7:00</td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td style="text-align: right">8:30</td>
+    </tr>
+    <tr>
+      <td>6</td>
+      <td style="text-align: right">9:30</td>
+    </tr>
+    <tr>
+      <td>7</td>
+      <td style="text-align: right">11:00</td>
+    </tr>
+    <tr>
+      <td>8</td>
+      <td style="text-align: right">12:00</td>
+    </tr>
+    <tr>
+      <td>9</td>
+      <td style="text-align: right">13:30</td>
+    </tr>
+    <tr>
+      <td>10</td>
+      <td style="text-align: right">14:30</td>
+    </tr>
+    <tr>
+      <td>11</td>
+      <td style="text-align: right">16:00</td>
+    </tr>
+    <tr>
+      <td>12</td>
+      <td style="text-align: right">17:00</td>
+    </tr>
+  </tbody>
+</table>
+
+
+  </article>
+
+</div>
+      </div>
+    </div>
+
+    <footer class="site-footer">
+  <div class="wrap">
+    <div style="text-align:center">
+      <ul>
+          <li>
+            <a class="ficon" href="http://github.com/ryantuck" target="_blank"><i class="fa fa-github"></i></a> 
+            <a class="ficon" href="http://stackoverflow.com/users/1700270/ryan-tuck" target="_blank"><i class="fa fa-stack-overflow"></i></a> 
+            <a class="ficon" href="https://trello.com/b/HGYr5Pcg/rtio" target="_blank"><i class="fa fa-trello"></i></a>
+            <a class="ficon" href="https://www.linkedin.com/pub/ryan-tuck/84/4b6/454" target="_blank"><i class="fa fa-linkedin-square"></i></a>  
+            <a class="ficon" href="http://instagram.com/ryntck" target="_blank"><i class="fa fa-instagram"></i></a> 
+            <a class="ficon" href="https://twitter.com/ryntck" target="_blank"><i class="fa fa-twitter"></i></a> 
+            <a class="ficon" href="mailto:ryan@ryantuck.io"><i class="fa fa-envelope-o"></i></a>
+          </li>
+        </ul>
+        <p>ryan tuck | 2014 | nyc</p>
+    </div>
+  </div>
+</footer>
+
+
+
+
+
+
+    <script src="/js/jquery-2.1.1.min.js"></script>
+    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <script src="/js/rtio.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script>
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+	ga('create', 'UA-53913849-1', 'auto');
+	ga('send', 'pageview');
+
+</script>
+
+    </body>
+</html>
